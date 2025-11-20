@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <application title="OMEES" mouseposition="false" logo="" help="" measuretools="true" mapprint="true" exportpng="true" togglealllayersfromtheme="true" addlayerstools="true"/>
+    <mapoptions maxzoom="19" projection="EPSG:3857" center="-220750.13768758904,6144925.57790189" zoom="5" projextent="-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244" />
+
+    <baselayers style="gallery">
+        <baselayer type="WMTS" id="ortho" label="Photo aérienne IGN" title="GéoPortail" maxscale="1000" thumbgallery="img/basemap/ortho.jpg"
+            url="https://data.geopf.fr/wmts" layers="ORTHOIMAGERY.ORTHOPHOTOS" format="image/jpeg" visible="false" fromcapacity="false"
+            attribution="&lt;a href='https://geoservices.ign.fr/services-geoplateforme-diffusion' target='_blank'>&lt;img src='img/basemap/geoservices.png'>&lt;/a>" style="normal" matrixset="PM" maxzoom="22"/>
+        <baselayer type="WMS" id="osm" label="OpenStreetMap" title="Plan OSM Géobretagne" thumbgallery="img/basemap/osm.png"
+            url="https://tile.geobretagne.fr/osm/service" layers="osm:grey" format="image/png" visible="true"
+            attribution="GéoBretagne. Données : les contributeurs d'&lt;a href='https://www.openstreetmap.org/' target='_blank'>OpenStreetMap &lt;/a>,  &lt;a href='https://www.openstreetmap.org/copyright' target='_blank'>ODbL &lt;/a>" />
+    </baselayers>
+
+    <proxy url=""/>
+    <olscompletion url="https://data.geopf.fr/geocodage/completion" type="completion" attribution="Service d'autocomplétion de l'IGN"/>
+    <searchparameters bbox="false" localities="true" features="false" />
+
+    <themes>
+        <theme name="OMEES" collapsed="false" id="omees" icon="fas fa-mosquito">
+            <layer id="albopictus_climate_suitability_weekly" name="Suitabilité / météo hebdo" visible="false" tiled="false"
+                searchable="false" queryable="true" infoformat="application/vnd.ogc.gml" featurecount="10"
+                style="omees:albo_abundance_communes, omees:albo_abundance_departements, omees:albo_meteo_rainfall_style, omees:albo_meteo_temperature_style, omees:albo_meteo_humidity_style"
+                url="https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows"
+                metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/70dde5fc-a5dd-4b0f-b17a-d10220aa5c0b"/>
+
+            <layer id="albopictus_arbocarto_r0_weekly" name="Arbocarto - R0" visible="false" tiled="false"
+                searchable="false" queryable="true" infoformat="application/vnd.ogc.gml" featurecount="10"
+                style="omees:albo_arbocarto_r0"
+                url="https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows"
+                metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/f0a08fa4-7991-4755-94ac-5b4d305c09fa"/>
+
+            <layer id="albopictus_arbocarto_montpellier_weekly" name="Arbocarto - densité adultes quartiers/iris" visible="false" tiled="false"
+                searchable="false" queryable="true" infoformat="application/vnd.ogc.gml" featurecount="10"
+                style="omees:albo_arbocarto_densadults_quartiers, omees:albo_arbocarto_densadults_iris"
+                url="https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows"
+                metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/857234eb-8b1d-47ac-a021-4f4b7105a66a"/>
+
+            <layer id="albopictus_field_surveillance_traps_geo" name="Abondance - surveillance terrain" visible="false" tiled="false"
+                searchable="false" queryable="true" infoformat="application/vnd.ogc.gml" featurecount="10"
+                style="omees:albo_abundance_surveillance_style"
+                url="https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows"
+                metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/aef51a22-8d4b-4569-8ad8-75674b628658"/>
+
+            <layer id="albopictus_france_colonisation_geo" name="Présence par commune" visible="false" tiled="false"
+                searchable="false" queryable="true" infoformat="application/vnd.ogc.gml" featurecount="10"
+                style="omees:albo_communes_presence_style"
+                url="https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows"
+                metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/601e18d4-f2a2-4257-b47f-fc500e99a581"/>
+
+            <layer id="albopictus_spf_surveillance_arboviroses_geo" name="Cas autochtones / importés (SPF)" visible="false" tiled="false"
+                searchable="false" queryable="true" infoformat="application/vnd.ogc.gml" featurecount="10"
+                style="omees:albo_spf_surveillance_cas_autochtones, omees:albo_spf_surveillance_cas_importes"
+                url="https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows"
+                metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/96df98d7-22df-461c-a1ce-4106aa21261f"/>
+
+            <layer id="albopictus_predictions_globalchanges_geo" name="Projections (multiples styles)" visible="false" tiled="false"
+                searchable="false" queryable="true" infoformat="application/vnd.ogc.gml" featurecount="10"
+                url="https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows"
+                metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/7898d840-1ee9-4184-90f5-09eb07bd43c6"/>
+        </theme>
+    </themes>
+</config>

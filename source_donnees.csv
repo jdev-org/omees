@@ -1,0 +1,15 @@
+commentaires;styles;metadata;layer;geoserver
+La couche est associée à plusieurs styles geoserver, qui permettent de projeter ces différentes informations. Les données météorologiques (précipitations, températures, vent) sont également disponibles dans la couche;"omees:albo_abundance_communes
+omees:albo_abundance_departements
+omees:albo_meteo_rainfall_style
+omees:albo_meteo_temperature_style
+omees:albo_meteo_humidity_style";https://geodata.bac-a-sable.inrae.fr/datahub/dataset/70dde5fc-a5dd-4b0f-b17a-d10220aa5c0b;albopictus_climate_suitability_weekly;https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows
+Source et plus d'info sur le modèle : https://www.arbocarto.fr/;omees:albo_arbocarto_r0;https://geodata.bac-a-sable.inrae.fr/datahub/dataset/f0a08fa4-7991-4755-94ac-5b4d305c09fa;albopictus_arbocarto_r0_weekly;https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows
+"La couche est associée à deux styles geoserver, qui permettent de projeter ces informations à deux échelles spatiales (iris et quartiers). 
+Source et plus d'info sur le modèle : https://www.arbocarto.fr/";"omees:albo_arbocarto_densadults_quartiers
+omees:albo_arbocarto_densadults_iris";https://geodata.bac-a-sable.inrae.fr/datahub/dataset/857234eb-8b1d-47ac-a021-4f4b7105a66a;albopictus_arbocarto_montpellier_weekly;https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows
+;omees:albo_abundance_surveillance_style;https://geodata.bac-a-sable.inrae.fr/datahub/dataset/aef51a22-8d4b-4569-8ad8-75674b628658;albopictus_field_surveillance_traps_geo;https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows
+Source et plus d'info : https://signalement-moustique.anses.fr/signalement_albopictus/colonisees;omees:albo_communes_presence_style;https://geodata.bac-a-sable.inrae.fr/datahub/dataset/601e18d4-f2a2-4257-b47f-fc500e99a581;albopictus_france_colonisation_geo;https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows
+Source et plus d'infos : https://odisse.santepubliquefrance.fr/explore/dataset/arboviroses-donnees-declaration-obligatoire;"omees:albo_spf_surveillance_cas_autochtones
+omees:albo_spf_surveillance_cas_importes";https://geodata.bac-a-sable.inrae.fr/datahub/dataset/96df98d7-22df-461c-a1ce-4106aa21261f;albopictus_spf_surveillance_arboviroses_geo;https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows
+28 styles associés (1 pour chaque couple {scénario, échéance future, indicateur};;https://geodata.bac-a-sable.inrae.fr/datahub/dataset/7898d840-1ee9-4184-90f5-09eb07bd43c6;albopictus_predictions_globalchanges_geo;https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows
