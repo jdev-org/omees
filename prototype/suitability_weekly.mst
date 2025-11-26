@@ -43,6 +43,9 @@ let colorRisk = {
 if (divTarget) {
 
     divTarget.insertAdjacentHTML("beforeend", `
+        <div class="text-center">
+            <h4>{{libgeo}}</h4>
+        </div>
 
         <div style="margin-bottom: 10px; color: white; background-color: ${colorRisk[level]}" class="text-center">
             <i class="fas fa-bell"></i>

@@ -31,7 +31,7 @@
         </theme>
         <theme name="Agir" collapsed="true" id="omees" icon="fas fa-hand-paper">
             <layer temp="true" id="albopictus_climate_suitability_weekly"  name="Indice hebdomadaire de favorabilité climatique pour le moustique tigre dans le département de l'Herault - aggregation communale et départementale" visible="false" tiled="false" searchable="false" queryable="true" infoformat="application/vnd.ogc.gml" featurecount="10" style="omees:albo_abundance_communes, omees:albo_abundance_departements, omees:albo_meteo_rainfall_style, omees:albo_meteo_temperature_style, omees:albo_meteo_humidity_style" url="https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows" metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/70dde5fc-a5dd-4b0f-b17a-d10220aa5c0b">
-            <template url="apps/omees/prototype/suitability_weekly.mst"></template>
+                <template url="apps/omees/prototype/suitability_weekly.mst"></template>
 		    </layer>
 
             <layer temp="true" id="albopictus_arbocarto_r0_weekly" name="Nombre de reproduction de base (R0) hebdomadaire pour la dengue dans le département de l'Herault - aggregation communale (année 2022)" visible="false" tiled="false" searchable="false" queryable="true" infoformat="application/vnd.ogc.gml" featurecount="10" style="omees:albo_arbocarto_r0" url="https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows" metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/f0a08fa4-7991-4755-94ac-5b4d305c09fa" />
