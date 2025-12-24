@@ -1,0 +1,108 @@
+{{#features}}
+    <li id="item_{{feature_ol_uid}}" class="item" style="width:100%;">
+        <div class="item__card item__acteur">
+                <h5>{{#sigle_structure}}{{sigle_structure}} ─ {{/sigle_structure}}{{libelle_structure}} </h5> 
+                {{#type_acteur}}
+                <div>
+                    <div class="cardBody_subtitle">Type d'acteur</div>                    
+                    <div>{{type_acteur}}</div>
+                </div>
+                {{/type_acteur}}
+                {{#domaines_scientifiques}}
+                <div>
+                    <div class="cardBody_subtitle">Domaine(s) scientifiques</div>                    
+                    <div >{{domaines_scientifiques}}</div>
+                </div>
+                {{/domaines_scientifiques}}
+                <div class="my-4">
+                    {{#contact}}<a class="cardBtn cardBtn__prim" href="mailto:{{contact}}" target="_blank">Contact</a>{{/contact}}
+                    {{#site_web}}<a class="cardBtn cardBtn__outline" href="{{site_web}}" target="_blank">En savoir plus</a>{{/site_web}}
+                </div>
+        </div>
+    </li>   
+<style>
+.featureInfo__brut .card-header {
+    display: none;
+}
+
+.featureInfo__brut .card {
+    border: none;
+}
+
+.xs .featureInfo__brut .card {
+    margin: 0;
+}
+
+.xs .featureInfo__brut .list-group.card-body {
+    padding: 0;
+}
+
+.item__card {
+    padding: 1em;
+    border-radius: 1em;
+    border: 1px solid var(--bs-gray-200);
+}
+
+.item__card > div {
+    margin-bottom: .8em;
+}
+
+.item__cardHeader {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+}
+
+.item__card.item__acteur h5 {
+    font-weight: bold;
+    color: #67c5b7;
+    font-size: 23px;
+    line-height: 1;
+    letter-spacing: -.5px;
+}
+
+.item__acteur .cardBody_subtitle {
+    text-transform: uppercase;
+    font-size: small;
+    font-weight: bold;
+    color: #67c5b7;
+}
+
+.item__acteur .cardBtn {
+    border: 2px solid #67c5b7;
+    padding: 10px 14px;
+    border-radius: 2em;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.item__acteur .cardBtn__prim {
+    background-color: #67c5b7;
+    color: white;
+}
+
+.item__acteur .cardBtn__outline {
+    border-color: #67c5b7;
+    color: #67c5b7;
+    background-color: transparent;
+}
+
+.item__acteur .cardBtn__prim:hover {
+    opacity:.7;
+}
+
+.item__acteur .cardBtn__outline:hover {
+    background-color: #67c5b7;
+    color: white;
+}
+
+.featureInfo__brut li:not(:first-child) {
+	border: none;
+}
+</style> 
+<script>
+</script>
+{{/features}}

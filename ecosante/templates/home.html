@@ -1,0 +1,111 @@
+<div id="homeEcosante">
+     
+  <img height="25px" src="apps/ecosante/img/omees_logosimple.png">
+  <h2>Atlas ÉcoSanté Montpellier</h2>
+
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link active" aria-current="page" data-bs-toggle="pill" data-bs-target="#pills-home" href="#">La Carte</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-data" href="#">Sources des données</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-partners" href="#">Partenaires</a>
+    </li>
+  </ul>
+
+  <!-- Contenu des tabs -->
+  <div class="tab-content my-4" id="pills-tabContent">
+      <div class="tab-pane fade show active" id="pills-home" role="tabpanel" >
+          <h4>Bienvenue sur notre Cartographie des acteurs et des projets de recherche en Écologie de la Santé sur le territoire de la Montpellier Méditerranée Métropole</h4>
+          <p>Découvrez les initiatives locales qui créent de nouvelles données et savoirs en santé globale (Une Seule Santé), menées par les acteurs de la recherche, les collectivités, les associations et le secteur privé.</p>
+          <div>
+            <a href="https://forma.montpellier3m.fr/viewform/ffe1d489-6eab-4924-8a19-3e88d4683425/" target="_blank" class="home__linkHightlight mb-3">Votre projet ne figure pas sur la carte ? Renseignez-le ! </a>
+          </div>  
+          <div class="">       
+            <a href="mailto:david.gomis@montpellier.fr" class="home__link">Contactez-nous</a>      
+          </div> 
+      </div>
+      <div class="tab-pane fade" id="pills-data" role="tabpanel">
+        <p>Fruit d’un partenariat entre la ville, la Métropole de Montpellier et les instituts de recherche présents sur le territoire, cette cartographie, portée par l’Observatoire Montpelliérain en Écologie et Évolution de la Santé, mutualise leurs projets pour proposer un outil commun de connaissance et de valorisation des projets suivis, financés, accompagnés ou répertoriés par ces partenaires. </p>
+        <p>Les données affichées sur la carte proviennent des porteurs de projets, ou de personnes ayant connaissance de ces projets. Ces données sont centralisées et diffusées sur la plateforme de données de l’Observatoire Montpelliérain en Écologie et Évolution de la Santé, garantissant leur cohérence, leur mise à jour régulière et leur accessibilité en open data. Elles constituent un socle commun de connaissance au service de tous les acteurs du territoire engagés sur les thématiques Une Seule Santé. </p>
+        <p>Cette base de données est en cours de construction et n’est pas exhaustive.</p>
+        <div>
+            <a href="https://forma.montpellier3m.fr/viewform/ffe1d489-6eab-4924-8a19-3e88d4683425/" target="_blank" class="home__linkHightlight mb-3">Renseignez votre projet pour le valoriser sur la cartographie !</a>
+          </div> 
+        <a href="" class="home__link">Toutes les cartes et données de l’OMEES</a>
+        
+      </div>
+      <div class="tab-pane fade" id="pills-partners" role="tabpanel">
+        
+      </div>
+  </div>
+</div>
+
+<style>
+#help .modal-body {
+    padding: 0;
+}
+
+#help .modal-title {
+    display: none;
+}
+
+#help .modal-header {
+    border: none;
+}
+
+#homeEcosante {
+  background-image: url("apps/ecosante/img/OMEES_ecosante_v5.png");
+  background-repeat: no-repeat;
+  background-position: center bottom -20px;
+  background-size: contain;
+  padding: 1em 4em 13em;
+}
+
+.xs #homeEcosante {
+  padding: 0em 1.5em 10em;
+  background-size: 160%;
+}
+
+#homeEcosante h2 {
+    font-weight: 900;
+    letter-spacing: -1px;
+    color: #2d6079;
+    margin-bottom: .5em;
+}
+
+#homeEcosante .nav-link {
+    border-radius: 2em!important;
+    text-transform: uppercase;
+    font-size: small;
+    font-weight: 600;
+}
+
+.home__linkHightlight {
+  background-color: #3b808b38;
+  display: flex;
+  padding: 15px 20px;
+  color: #3b808b;
+  font-weight: 600;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.home__linkHightlight:hover {
+  transform: scale(1.02);
+  background-color: #3b808b63;
+}
+
+.home__link {
+  font-weight: 700;
+}
+
+.xs #homeEcosante .nav.nav-pills {
+    flex-direction: column;
+}
+
+
+</style>

@@ -1,0 +1,185 @@
+{{#features}}
+    <li id="item_{{feature_ol_uid}}" class="item" style="width:100%;">
+        <div class="item__card item__projet">
+            <div class="item__cardHeader">
+                <h5>{{#projet_acronyme}}{{projet_acronyme}} ─ {{/projet_acronyme}}{{projet_intitule}} </h5>       
+                <div class="item__cardBadge">{{visualiseur_projet_statut}}</div>
+            </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="cardBody_subtitle">date de début</div>                    
+                        <div>{{visualiseur_annee_debut}}</div>
+                    </div>  
+                    <div class="col-6">
+                        <div class="cardBody_subtitle">date de fin</div>                    
+                        <div>{{#visualiseur_annee_fin}}{{visualiseur_annee_fin}}{{/visualiseur_annee_fin}}{{^visualiseur_annee_fin}}-{{/visualiseur_annee_fin}}</div>
+                    </div>                       
+                </div>
+                <div>
+                    <div class="cardBody_subtitle">Porteur de projet</div>                    
+                    <div class="cardBody_txt">{{porteur_etablissement}} {{#porteur_umr}}- {{porteur_umr}}{{/porteur_umr}}</div>
+                </div>
+                {{#visualiseur_sites_etude}}
+                <div>
+                    <div class="cardBody_subtitle">Site d'étude</div>                    
+                    <div class="cardBody_txt">{{visualiseur_sites_etude}}</div>
+                </div>
+                {{/visualiseur_sites_etude}}
+                {{#milieux}}
+                <div>
+                    <div class="cardBody_subtitle">Milieux</div>                    
+                    <div class="cardBody_txt">{{milieux}}</div>
+                </div>
+                {{/milieux}}
+                {{#thematiques}}
+                <div>
+                    <div class="cardBody_subtitle">Thématiques</div>                    
+                    <div class="cardBody_txt">{{thematiques}}</div>
+                </div>
+                {{/thematiques}}
+                {{#descriptif}}
+                <details class="item__cardAccordion">
+                    <summary class="cardBody_subtitle">
+                        Description
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M13.0001 10.9999L22.0002 10.9997L22.0002 12.9997L13.0001 12.9999L13.0001 21.9998L11.0001 21.9998L11.0001 12.9999L2.00004 13.0001L2 11.0001L11.0001 10.9999L11 2.00025L13 2.00024L13.0001 10.9999Z"></path></svg>
+                    </summary>
+                    <div class="cardBody_txt">
+                        <div>{{descriptif}}</div>
+                    </div>
+                </details>
+                {{/descriptif}}
+                <div class="my-4">
+                    {{#contact}}<a class="cardBtn cardBtn__prim" href="mailto:{{contact}}" target="_blank">Contact</a>{{/contact}}
+                    {{#site_web}}<a class="cardBtn cardBtn__outline" href="{{site_web}}" target="_blank">En savoir plus</a>{{/site_web}}
+                </div>
+        </div>
+    </li>   
+<style>
+.featureInfo__brut .card-header {
+    display: none;
+}
+
+.featureInfo__brut .card {
+    border: none;
+}
+
+.xs .featureInfo__brut .card {
+    margin: 0;
+}
+
+.xs .featureInfo__brut .list-group.card-body {
+    padding: 0;
+}
+
+.item__card {
+    padding: 1em;
+    border-radius: 1em;
+    border: 1px solid var(--bs-gray-200);
+}
+
+.item__card > div {
+    margin-bottom: .8em;
+}
+
+.item__cardHeader {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+}
+
+.item__card.item__projet h5 {
+    font-weight: bold;
+    color: #1d3d5e;
+    font-size: 23px;
+    line-height: 1;
+    letter-spacing: -.5px;
+}
+
+.item__cardBadge {
+    background-color: #2a818c;
+    color: white;
+    display: inline-flex;
+    padding: 5px 8px;
+    text-transform: uppercase;
+    font-size: small;
+    font-weight: 500;
+    border-radius: 15px;
+    line-height: 1;
+}
+
+.item__projet .cardBody_subtitle {
+    text-transform: uppercase;
+    font-size: small;
+    font-weight: bold;
+    color: #1d3d5e;
+}
+
+.cardBody_txt {
+    line-height: 1.3;
+}
+
+.item__cardAccordion {
+    margin: 10px 0;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.item__cardAccordion summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+
+.item__cardAccordion summary svg {
+    transition:all .3s;
+}
+
+.item__cardAccordion[open] summary svg {
+    transform: rotate(45deg);
+}
+
+.item__cardAccordionSummary:hover {
+    background-color: #e2eaf2; /* Changer la couleur au survol */
+}
+
+.item__projet .cardBtn {
+    border: 2px solid #1d3d5e;
+    padding: 10px 14px;
+    border-radius: 2em;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.item__projet .cardBtn__prim {
+    background-color: #1d3d5e;
+    color: white;
+}
+
+.item__projet .cardBtn__outline {
+    border-color: #1d3d5e;
+    color: #1d3d5e;
+    background-color: transparent;
+}
+
+.item__projet .cardBtn__prim:hover {
+    opacity:.7;
+}
+
+.item__projet .cardBtn__outline:hover {
+    background-color: #1d3d5e;
+    color: white;
+}
+
+.featureInfo__brut li:not(:first-child) {
+	border: none;
+}
+</style> 
+{{/features}}

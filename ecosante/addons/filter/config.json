@@ -1,0 +1,48 @@
+{
+  "js": ["js/filter.js", "../lib/jquery.easyDrag.min.js"],
+  "css": "css/filter.css",
+  "html": "filter.html",
+  "target": "page-content-wrapper",
+  "options": {
+    "mviewer": {
+      "omees_ecosante": {
+        "title": "Filtrer",
+        "open": true,
+        "zoomOnFeatures": true,
+        "layers": [
+          {
+            "layerId": "projets_ecosante",
+            "downloadFormats": [
+              { "label": "CSV", "format": "CSV" },
+              { "label": "Shp", "format": "SHAPE-ZIP" },
+              { "label": "Excel", "format": "excel" }
+            ],
+            "filter": [              
+              {
+                "attribut": "milieux",
+                "type": "button",
+                "label": "Milieux",
+                "dataSeparator": ";",
+                "updateOnChange": false
+              },
+              {
+                "attribut": "thematiques",
+                "type": "textbox",
+                "label": "Thématiques",
+                "dataSeparator": ";",
+                "updateOnChange": true
+              },              
+              {
+                "attribut": "porteur_etablissement",
+                "type": "button",
+                "label": "Porteur de projet",
+                "dataSeparator": ";",
+                "updateOnChange": true
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
