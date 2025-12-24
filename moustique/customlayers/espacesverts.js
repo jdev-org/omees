@@ -45,7 +45,7 @@ let legendItems = Object.entries(stylesByType).map(([label, color]) => {
 
 let layer = new ol.layer.Vector({
   source: new ol.source.Vector({
-    url: "apps/omees/data/MMM_MMM_EspacesVerts.json",
+    url: "apps/omees/moustique/data/MMM_MMM_EspacesVerts.json",
     // url: "https://data.montpellier3m.fr/sites/default/files/ressources/MMM_MMM_EspacesVerts.json",
     format: new ol.format.GeoJSON(),
   }),
