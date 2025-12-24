@@ -1,0 +1,33 @@
+{{#features}}
+<li class="item" id="{{feature_ol_uid}}">
+    <div class="row" id="{{feature_ol_uid}}-target" style="max-height: 10px;">
+    <div>
+SQ DF 
+    </div>
+    <div>
+    </div>
+    </div>
+</li>
+
+
+<script>
+const id  = "{{feature_ol_uid}}";
+const target = "{{feature_ol_uid}}-target";
+
+const url = `https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows?
+service=WFS&
+request=GetFeature&
+typeName=omees:albopictus_arbocarto_montpellier_weekly&
+outputFormat=application/json&
+cql_filter=codgeo=${codegeo}
+`
+const infos = fetch(url).then(
+    x => x.json()
+).then(a =>
+console.log(a)
+);
+
+
+</script>
+
+{{/features}}

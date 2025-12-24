@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <application id="prototype" title="Outil de suivi et de lutte contre les moustiques en métropole" mouseposition="false" style="apps/omees/css/omees.css" logo="apps/omees/img/moustique_blanc.svg" showhelp="true" help="apps/omees/prototype/home.html" measuretools="true" mapprint="true" exportpng="true" togglealllayersfromtheme="true" addlayerstools="true" />
+    <mapoptions maxzoom="19" projection="EPSG:3857" center="444489.5211298258, 5406987.978452567" zoom="12" projextent="-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244" />
+
+    <baselayers style="gallery">
+        <baselayer visible="true" id="plan_ign" thumbgallery="img/basemap/plan_ign.png" title="Plan IGN" label="TMS Plan IGN" type="vector-tms" url="https://data.geopf.fr/tms/1.0.0/PCI/{z}/{x}/{y}.pbf" styleurl="https://data.geopf.fr/annexes/ressources/vectorTiles/styles/PLAN.IGN/standard.json" style="plan_ign" attribution="IGN"  ></baselayer>
+        <baselayer type="WMTS" id="ortho" label="Photo aérienne IGN" title="GéoPortail" maxscale="1000" thumbgallery="img/basemap/ortho.jpg" url="https://data.geopf.fr/wmts" layers="ORTHOIMAGERY.ORTHOPHOTOS" format="image/jpeg" visible="false" fromcapacity="false" attribution="&lt;a href='https://geoservices.ign.fr/services-geoplateforme-diffusion' target='_blank'>&lt;img src='img/basemap/geoservices.png'>&lt;/a>" style="normal" matrixset="PM" maxzoom="22" />
+        <baselayer type="WMS" id="osm" label="OpenStreetMap" title="Plan OSM Géobretagne" thumbgallery="img/basemap/osm.png" url="https://tile.geobretagne.fr/osm/service" layers="osm:grey" format="image/png" visible="false" attribution="GéoBretagne. Données : les contributeurs d'&lt;a href='https://www.openstreetmap.org/' target='_blank'>OpenStreetMap &lt;/a>,  &lt;a href='https://www.openstreetmap.org/copyright' target='_blank'>ODbL &lt;/a>" />
+    </baselayers>
+
+    <proxy url="" />
+    <olscompletion url="https://data.geopf.fr/geocodage/completion" type="completion" attribution="Service d'autocomplétion de l'IGN" />
+    <searchparameters bbox="false" localities="true" features="false" />
+    <themes>
+        <theme name="S'informer" collapsed="false" id="omees-montpellier" icon="fas fa-comment">
+            <layer 
+                timefilter="true"
+                timeinterval="week"
+                timecontrol="calendar"
+                timevalues="2025-08-02,2025-08-05
+                    2025-08-09,2025-08-12,2025-08-16,2025-08-19,2025-08-23
+                    2025-08-26,2025-08-30,2025-09-02,2025-09-06,2025-09-09
+                    2025-09-13,2025-09-16,2025-09-20,2025-09-23,2025-09-27
+                    2025-09-30,2025-10-04"
+                timemin="2023-01-01"
+                timemax="2025-10-04"
+            temp="true" stylesalias="Quartiers, Iris" styletitle="Echelle" scalemin="0" opacity="0.5" scalemax="250000" id="albopictus_arbocarto_montpellier_weekly" name="Densités de moustiques adultes hebdomadaire sur la métropole de Montpellier" visible="true" tiled="false" searchable="false" queryable="true" infoformat="application/vnd.ogc.gml" featurecount="10" style="omees:albo_arbocarto_densadults_quartiers, omees:albo_arbocarto_densadults_iris" url="https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows" metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/857234eb-8b1d-47ac-a021-4f4b7105a66a" />
+            <layer id="MMM_MMM_VegFine" scalemin="0" scalemax="250000" name="Végétation urbaine de Montpellier Méditerrannée Métropole" visible="false" tiled="true" searchable="false" queryable="true" infoformat="application/vnd.ogc.gml" featurecount="10" url="https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows" metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/vegetation-fine-2019" />
+            <layer id="espacesverts" scalemin="0" scalemax="250000" name="Parcs et jardins de Montpellier Méditerrannée Métropole" visible="false" tiled="false" type="customlayer" searchable="false" queryable="true" infoformat="application/vnd.ogc.gml" featurecount="10" url="apps/omees/customlayers/espacesverts.js" metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/parcs-et-jardins-surface-de-montpellier" />
+        </theme>
+        <theme name="Agir" collapsed="true" id="omees" icon="fas fa-hand-paper">
+            <layer temp="true" id="albopictus_climate_suitability_weekly"  name="Indice hebdomadaire de favorabilité climatique pour le moustique tigre dans le département de l'Herault - aggregation communale et départementale" visible="false" tiled="false" searchable="false" queryable="true" infoformat="application/vnd.ogc.gml" featurecount="10" style="omees:albo_abundance_communes, omees:albo_abundance_departements, omees:albo_meteo_rainfall_style, omees:albo_meteo_temperature_style, omees:albo_meteo_humidity_style" url="https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows" metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/70dde5fc-a5dd-4b0f-b17a-d10220aa5c0b">
+                <template url="apps/omees/prototype/suitability_weekly.mst"></template>
+		    </layer>
+
+            <layer temp="true" id="albopictus_arbocarto_r0_weekly" name="Nombre de reproduction de base (R0) hebdomadaire pour la dengue dans le département de l'Herault - aggregation communale (année 2022)" visible="false" tiled="false" searchable="false" queryable="true" infoformat="application/vnd.ogc.gml" featurecount="10" style="omees:albo_arbocarto_r0" url="https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows" metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/f0a08fa4-7991-4755-94ac-5b4d305c09fa" />
+
+            <layer id="albopictus_field_surveillance_traps_geo" name="Données de surveillance entomologique terrain - réseau d'observation Altopictus" visible="false" tiled="false" searchable="false" queryable="true" infoformat="application/vnd.ogc.gml" featurecount="10" style="omees:albo_abundance_surveillance_style" url="https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows" metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/aef51a22-8d4b-4569-8ad8-75674b628658" />
+
+            <layer id="albopictus_france_colonisation_geo" name="Communes officiellement colonisées par le moustique tigre" visible="false" tiled="false" searchable="false" queryable="true" infoformat="application/vnd.ogc.gml" featurecount="10" style="omees:albo_communes_presence_style" url="https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows" metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/601e18d4-f2a2-4257-b47f-fc500e99a581" />
+
+            <layer temp="true" id="albopictus_spf_surveillance_arboviroses_geo" name="Arboviroses : Données de la déclaration obligatoire " visible="false" tiled="false" searchable="false" queryable="true" infoformat="application/vnd.ogc.gml" featurecount="10" style="omees:albo_spf_surveillance_cas_autochtones, omees:albo_spf_surveillance_cas_importes" url="https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows" metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/96df98d7-22df-461c-a1ce-4106aa21261f" />
+
+            <layer id="albopictus_predictions_globalchanges_geo" name="Moustique tigre : indicateurs de distribution du risque sous différents scénarios de changements globaux au niveau national" visible="false" tiled="false" searchable="false" queryable="true" infoformat="application/vnd.ogc.gml" featurecount="10" url="https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows" metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/7898d840-1ee9-4184-90f5-09eb07bd43c6" />
+
+            <layer id="albopictus_field_surveillance_traps_geo_silav" name="Données de surveillance entomologique terrain - SILAV" visible="false" tiled="true" searchable="false" queryable="true" infoformat="application/vnd.ogc.gml" featurecount="10" url="https://geodata.bac-a-sable.inrae.fr/geoserver/omees/ows" metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/021b8a85-5848-4a18-9f9b-c52ea6c87862" />
+
+        </theme>
+    </themes>
+</config>
