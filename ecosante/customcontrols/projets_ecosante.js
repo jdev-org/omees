@@ -13,7 +13,7 @@ const cc = (function () {
         <div id="projetsEcoLgdCustom">
           <div class="legend-item">
                 <img
-                src="apps/ecosante/img/marker_projet.svg"
+                src="apps/omees/ecosante/img/marker_projet.svg"
                 alt="Acteur"
                 class="legend-icon"
                 />

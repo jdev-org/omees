@@ -10,14 +10,14 @@
   // --- Styles (normal + hover) ---
   const pointSvgStyle = new ol.style.Style({
     image: new ol.style.Icon({
-      src: "apps/ecosante/img/marker_acteur.svg",
+      src: "apps/omees/ecosante/img/marker_acteur.svg",
       scale: 0.25,
     }),
   });
 
   const pointSvgHoverStyle = new ol.style.Style({
     image: new ol.style.Icon({
-      src: "apps/ecosante/img/marker_acteur.svg",
+      src: "apps/omees/ecosante/img/marker_acteur.svg",
       scale: 0.33, 
     }),
     zIndex: 10,

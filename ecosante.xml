@@ -3,10 +3,10 @@
     <application 
         title="Atlas ÉcoSanté Montpellier"         
         id="omees_ecosante" 
-        style="apps/ecosante/omees_theme.css" 
-        logo="apps/ecosante/img/ecosante_logo.svg" 
+        style="apps/omees/ecosante/omees_theme.css" 
+        logo="apps/omees/ecosante/img/ecosante_logo.svg" 
         favicon="" 
-        help="apps/ecosante/templates/home.html" exportpng="true" showhelp="true" 
+        help="apps/omees/ecosante/templates/home.html" exportpng="true" showhelp="true" 
         templaterightinfopanel="brut"
         templatemobileinfopanel="brut">
     </application>
@@ -28,7 +28,7 @@
     <searchparameters bbox="false" localities="true" features="false" /> 
 
     <extensions>
-        <extension type="component" id="filter" path="apps/ecosante/addons"/>
+        <extension type="component" id="filter" path="apps/omees/ecosante/addons"/>
     </extensions>
 
     <styles>
@@ -50,25 +50,25 @@
                         searchable="false" queryable="true"  
                         infoformat="application/vnd.ogc.gml" featurecount="20"
                         type="customlayer"
-                        url="apps/ecosante/customlayers/acteurs_ecosante.js"    
-                        customcontrol="true" customcontrolpath="apps/ecosante/customcontrols"
+                        url="apps/omees/ecosante/customlayers/acteurs_ecosante.js"    
+                        customcontrol="true" customcontrolpath="apps/omees/ecosante/customcontrols"
                         attribution="OMEES - Observatoire Montpelliérain en Écologie et Évolution de la Santé" 
                         tooltip="true" tooltipcontent="&lt;b&gt;{{type_acteur}}&lt;/b&gt; &lt;br&gt; {{libelle_structure}}"
                         metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/8fefc36c-4ff6-4f1a-b938-bcaea15598fd"
                         metadata-csw="https://geodata.bac-a-sable.inrae.fr/geonetwork/srv/fre/csw?SERVICE=CSW&amp;VERSION=2.0.2&amp;REQUEST=GetRecordById&amp;elementSetName=full&amp;ID=8fefc36c-4ff6-4f1a-b938-bcaea15598fd" >
-                        <template url="apps/ecosante/templates/acteurs_ecosante.mst"></template>
+                        <template url="apps/omees/ecosante/templates/acteurs_ecosante.mst"></template>
                 </layer>
                 <layer id="projets_ecosante" name="Projets en écologie de la santé"  visible="true" tiled="false"
                         searchable="false" queryable="true"  
                         infoformat="application/vnd.ogc.gml" featurecount="20"
                         type="customlayer"
-                        url="apps/ecosante/customlayers/projets_ecosante.js" 
+                        url="apps/omees/ecosante/customlayers/projets_ecosante.js" 
                         attribution="OMEES - Observatoire Montpelliérain en Écologie et Évolution de la Santé" 
-                        customcontrol="true" customcontrolpath="apps/ecosante/customcontrols"
+                        customcontrol="true" customcontrolpath="apps/omees/ecosante/customcontrols"
                         tooltip="true" tooltipcontent="{{visualiseur_sites_etude}}"
                         metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/4825d455-035c-4199-a465-2d4999f927ab"
                         metadata-csw="https://geodata.bac-a-sable.inrae.fr/geonetwork/srv/fre/csw?SERVICE=CSW&amp;VERSION=2.0.2&amp;REQUEST=GetRecordById&amp;elementSetName=full&amp;ID=4825d455-035c-4199-a465-2d4999f927ab" >
-                        <template url="apps/ecosante/templates/projets_ecosante.mst"></template>
+                        <template url="apps/omees/ecosante/templates/projets_ecosante.mst"></template>
                 </layer>
             </theme>
     </themes>

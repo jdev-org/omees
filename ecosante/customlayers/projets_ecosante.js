@@ -7,7 +7,7 @@
   // Définition de la variable customlayer. 
   const LAYER_ID = "projets_ecosante";  
 
-  const ICON_SRC = "apps/ecosante/img/marker_projet.svg";
+  const ICON_SRC = "apps/omees/ecosante/img/marker_projet.svg";
   const styleCache = {};
 
   const strokeColor = "rgba(19, 62, 95, 1)";
