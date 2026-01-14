@@ -15,8 +15,7 @@
                 </div>
                 {{/domaines_scientifiques}}
                 <div class="my-4">
-                    {{#contact}}<a class="cardBtn cardBtn__prim" href="mailto:{{contact}}" target="_blank">Contact</a>{{/contact}}
-                    {{#site_web}}<a class="cardBtn cardBtn__outline" href="{{site_web}}" target="_blank">En savoir plus</a>{{/site_web}}
+                    {{#siteweb}}<a class="cardBtn cardBtn__prim" href="{{siteweb}}" target="_blank">En savoir plus</a>{{/siteweb}}
                 </div>
         </div>
     </li>   

@@ -38,12 +38,40 @@
         
       </div>
       <div class="tab-pane fade" id="pills-partners" role="tabpanel">
-        
-      </div>
+        <div class="logos-container">          
+          <img src="apps/omees/ecosante/img/logos_partenaires/logo_montpellierMetropole.PNG" alt="Montpellier Méditerranée Métropole">          
+          <img src="apps/omees/ecosante/img/logos_partenaires/cnrs.png" alt="CNRS">
+          <img src="apps/omees/ecosante/img/logos_partenaires/cirad.png" alt="CIRAD">          
+          <img src="apps/omees/ecosante/img/logos_partenaires/ird.png" alt="IRD">
+          <img src="apps/omees/ecosante/img/logos_partenaires/inrae.png" alt="INRAE">          
+          <img src="apps/omees/ecosante/img/logos_partenaires/logo_um.png" alt="Université de Montpellier">
+          <img src="apps/omees/ecosante/img/logos_partenaires/logo_paulValery.png" alt="Université Paul-Valéry Montpellier">          
+          <img src="apps/omees/ecosante/img/logos_partenaires/logo_EPHE_PSL.png" alt="EPHE PSL">          
+          <img src="apps/omees/ecosante/img/logos_partenaires/logo_institutAgroMontpellier.png" alt="Institut Agro Montpellier">          
+          <img src="apps/omees/ecosante/img/logos_partenaires/logo_eid.jpg" alt="EID Méditerranée">          
+          <img src="apps/omees/ecosante/img/logos_partenaires/logo_inserm.jpg" alt="INSERM">
+          <img src="apps/omees/ecosante/img/logos_partenaires/logo_EFS.png" alt="EFS">          
+          <img src="apps/omees/ecosante/img/logos_partenaires/logo_CHUMontpellier.png" alt="CHU Montpellier">
+        </div>
   </div>
 </div>
 
 <style>
+.logos-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    padding: 20px;
+}
+
+.logos-container img {
+    max-height: 70px;
+    max-width: 160px;
+    object-fit: contain;
+}
+
 #help .modal-body {
     padding: 0;
 }
@@ -57,7 +85,7 @@
 }
 
 #homeEcosante {
-  background-image: url("apps/omees/ecosante/img/OMEES_ecosante_v5.png");
+  background-image: url("apps/omees/ecosante/img/OMEES_ecosante.png");
   background-repeat: no-repeat;
   background-position: center bottom -20px;
   background-size: contain;

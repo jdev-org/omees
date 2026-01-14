@@ -5,13 +5,13 @@
         id="omees_ecosante" 
         style="apps/omees/ecosante/omees_theme.css" 
         logo="apps/omees/ecosante/img/ecosante_logo.svg" 
-        favicon="" 
+        favicon="apps/omees/ecosante/img/favicon.ico" 
         help="apps/omees/ecosante/templates/home.html" exportpng="true" showhelp="true" 
         templaterightinfopanel="brut"
         templatemobileinfopanel="brut">
     </application>
 
-    <mapoptions maxzoom="20" projection="EPSG:3857" center="475052.0742070874, 5398077.900420676" zoom="10"/>
+    <mapoptions maxzoom="20" projection="EPSG:3857" center="434800.3649316455, 5408208.6468328675" zoom="12"/>
 
     <baselayers style="gallery">
         <baselayer visible="true" id="positron" thumbgallery="img/basemap/positron.png" title="CartoDb" label="Positron" type="OSM" url="https://{a-c}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png" attribution="Map tiles by  &lt;a href=&quot;https://cartodb.com/attributions&quot;&gt;CartoDb&lt;/a&gt;, under  &lt;a href=&quot;https://creativecommons.org/licenses/by/3.0/&quot;&gt;CC BY 3.0 &lt;/a&gt;" /> 
@@ -46,14 +46,14 @@
 
     <themes mini="true" legendmini="false"> 
             <theme name="Écologie de la santé" collapsed="true" id="ecosante" icon="fas fa-leaf">
-                <layer id="acteurs_ecosante" name="Acteurs en écologie de la santé"  visible="true" tiled="false"
+                <layer id="acteurs_ecosante" name="Acteurs en écologie de la santé"  visible="false" tiled="false"
                         searchable="false" queryable="true"  
                         infoformat="application/vnd.ogc.gml" featurecount="20"
                         type="customlayer"
                         url="apps/omees/ecosante/customlayers/acteurs_ecosante.js"    
-                        customcontrol="true" customcontrolpath="apps/omees/ecosante/customcontrols"
+                        vectorlegend="true"
                         attribution="OMEES - Observatoire Montpelliérain en Écologie et Évolution de la Santé" 
-                        tooltip="true" tooltipcontent="&lt;b&gt;{{type_acteur}}&lt;/b&gt; &lt;br&gt; {{libelle_structure}}"
+                        tooltip="true" tooltipcontent="&lt;b&gt;{{type_acteur}}&lt;/b&gt; &lt;br&gt; {{sigle_structure}} – {{libelle_structure}}"
                         metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/8fefc36c-4ff6-4f1a-b938-bcaea15598fd"
                         metadata-csw="https://geodata.bac-a-sable.inrae.fr/geonetwork/srv/fre/csw?SERVICE=CSW&amp;VERSION=2.0.2&amp;REQUEST=GetRecordById&amp;elementSetName=full&amp;ID=8fefc36c-4ff6-4f1a-b938-bcaea15598fd" >
                         <template url="apps/omees/ecosante/templates/acteurs_ecosante.mst"></template>
@@ -65,9 +65,9 @@
                         url="apps/omees/ecosante/customlayers/projets_ecosante.js" 
                         attribution="OMEES - Observatoire Montpelliérain en Écologie et Évolution de la Santé" 
                         customcontrol="true" customcontrolpath="apps/omees/ecosante/customcontrols"
-                        tooltip="true" tooltipcontent="{{visualiseur_sites_etude}}"
+                        tooltip="true" tooltipcontent="&lt;b&gt;{{projet_acronyme}}&lt;/b&gt; &lt;br&gt; {{visualiseur_sites_etude}}"
                         metadata="https://geodata.bac-a-sable.inrae.fr/datahub/dataset/4825d455-035c-4199-a465-2d4999f927ab"
-                        metadata-csw="https://geodata.bac-a-sable.inrae.fr/geonetwork/srv/fre/csw?SERVICE=CSW&amp;VERSION=2.0.2&amp;REQUEST=GetRecordById&amp;elementSetName=full&amp;ID=4825d455-035c-4199-a465-2d4999f927ab" >
+                        metadata-csw="https://geodata.bac-a-sable.inrae.fr/geonetwork/srv/fre/csw?SERVICE=CSW&amp;VERSION=2.0.2&amp;REQUEST=GetRecordById&amp;elementSetName=full&amp;Id=4825d455-035c-4199-a465-2d4999f927ab&amp;outputSchema=http://www.isotc211.org/2005/gmd" >
                         <template url="apps/omees/ecosante/templates/projets_ecosante.mst"></template>
                 </layer>
             </theme>

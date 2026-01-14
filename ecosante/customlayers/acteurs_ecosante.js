@@ -8,20 +8,44 @@
   const LAYER_ID = "acteurs_ecosante";  
 
   // --- Styles (normal + hover) ---
-  const pointSvgStyle = new ol.style.Style({
-    image: new ol.style.Icon({
-      src: "apps/omees/ecosante/img/marker_acteur.svg",
-      scale: 0.25,
+  const pointStyle = new ol.style.Style({
+    image: new ol.style.Circle({
+      radius: 6, 
+      fill: new ol.style.Fill({ color: "#67c5b7" }),
+      stroke: new ol.style.Stroke({ color: "#ffffff", width: 3 }),
     }),
   });
 
-  const pointSvgHoverStyle = new ol.style.Style({
-    image: new ol.style.Icon({
-      src: "apps/omees/ecosante/img/marker_acteur.svg",
-      scale: 0.33, 
+  const pointHoverStyle = new ol.style.Style({
+    image: new ol.style.Circle({
+      radius: 9, 
+      fill: new ol.style.Fill({ color: "#67c5b7" }),
+      stroke: new ol.style.Stroke({ color: "#ffffff", width: 3 }),
     }),
     zIndex: 10,
   });
+
+  const legend = {
+    items: [
+      {
+        geometry: "Point",
+        styles: [
+          new ol.style.Style({
+            image: new ol.style.Circle({
+              fill: new ol.style.Fill({
+                color: "#67c5b7",
+              }),
+              stroke: new ol.style.Stroke({
+                color: "#ffffff",
+                width: 3,
+              }),
+              radius: 7,
+            }),
+          }),
+        ],
+      }
+    ],
+  };
 
   // --- Couche ---
   const layer = new ol.layer.Vector({
@@ -32,14 +56,13 @@
         featureProjection: "EPSG:3857",
       }),
     }),
-    style: pointSvgStyle,
+    style: pointStyle
   });
-
   // --- Interaction hover (survol) ---
   const hoverSelect = new ol.interaction.Select({
     condition: ol.events.condition.pointerMove,
     layers: [layer],              // limite à cette couche
-    style: pointSvgHoverStyle,    // style appliqué aux features "hover"
+    style: pointHoverStyle,    // style appliqué aux features "hover"
   });
 
   mviewer.getMap().addInteraction(hoverSelect);

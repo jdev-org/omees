@@ -8,7 +8,11 @@
       "omees_ecosante": {
         "title": "Filtrer",
         "open": true,
-        "zoomOnFeatures": true,
+        "zoomOnFeatures": false,
+        "style": {
+            "top":"40%",
+            "left": "5em"
+        },
         "layers": [
           {
             "layerId": "projets_ecosante",
@@ -27,15 +31,15 @@
               },
               {
                 "attribut": "thematiques",
-                "type": "textbox",
-                "label": "Thématiques",
+                "type": "combobox",
+                "label": "Sous-thématiques",
                 "dataSeparator": ";",
-                "updateOnChange": true
+                "updateOnChange": false
               },              
               {
                 "attribut": "porteur_etablissement",
                 "type": "button",
-                "label": "Porteur de projet",
+                "label": "Porteurs de projet",
                 "dataSeparator": ";",
                 "updateOnChange": true
               }
