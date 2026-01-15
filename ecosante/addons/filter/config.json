@@ -10,8 +10,8 @@
         "open": true,
         "zoomOnFeatures": false,
         "style": {
-            "top":"40%",
-            "left": "5em"
+            "top":"7em",
+            "left": "25em"
         },
         "layers": [
           {
@@ -31,6 +31,13 @@
               },
               {
                 "attribut": "thematiques",
+                "type": "button",
+                "label": "Thématiques",
+                "dataSeparator": ";",
+                "updateOnChange": false
+              }, 
+              {
+                "attribut": "sous_thematiques",
                 "type": "combobox",
                 "label": "Sous-thématiques",
                 "dataSeparator": ";",

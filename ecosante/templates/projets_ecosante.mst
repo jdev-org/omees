@@ -37,6 +37,12 @@
                     <div class="cardBody_txt">{{thematiques}}</div>
                 </div>
                 {{/thematiques}}
+                {{#sous_thematiques}}
+                <div>
+                    <div class="cardBody_subtitle">Sous-thématiques</div>                    
+                    <div class="cardBody_txt">{{sous_thematiques}}</div>
+                </div>
+                {{/sous_thematiques}}
                 {{#descriptif}}
                 <details class="item__cardAccordion">
                     <summary class="cardBody_subtitle">
