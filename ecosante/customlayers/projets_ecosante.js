@@ -42,15 +42,23 @@
     const geom = feature.getGeometry();
     if (!geom) return null;
 
-    const type = geom.getType();
+    // Récupère tous les types, y compris dans les GeometryCollection
+    const collectTypes = (g) => {
+      if (g.getType() === "GeometryCollection") {
+        return g.getGeometries().flatMap(collectTypes);
+      }
+      return [g.getType()];
+    };
 
-    // Points
-    if (type === "Point" || type === "MultiPoint") {
+    const types = collectTypes(geom);
+
+    // Points (un seul style pour tous les points de la collection)
+    if (types.includes("Point") || types.includes("MultiPoint")) {
       return styleCache.point;
     }
 
     // Lignes
-    if (type === "LineString" || type === "MultiLineString") {
+    if (types.includes("LineString") || types.includes("MultiLineString")) {
       return styleCache.line;
     }
 
@@ -68,10 +76,19 @@
   });
 
   const hoverStyle = function (feature) {
-    const geomType = feature.getGeometry().getType();
-    return (geomType === "Point" || geomType === "MultiPoint")
-      ? hoverPointStyle
-      : null;
+    const geom = feature.getGeometry();
+    if (!geom) return null;
+
+    if (geom.getType() === "GeometryCollection") {
+      return geom.getGeometries().some(g =>
+        g.getType() === "Point" || g.getType() === "MultiPoint"
+      )
+        ? hoverPointStyle
+        : null;
+    }
+
+    const type = geom.getType();
+    return (type === "Point" || type === "MultiPoint") ? hoverPointStyle : null;
   };
   //Appel de la donnée
   const layer = new ol.layer.Vector({
