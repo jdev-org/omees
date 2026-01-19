@@ -1,11 +1,11 @@
 {
-  // Définition des variables realtives à la couche.
+  // Définition des variables relatives à la couche.
   const GEOSERVER_URL = "https://geodata.bac-a-sable.inrae.fr/geoserver";
   const WORKSPACE = "omees";
   const LAYER = "projets_omees";
   const LAYER_URL = `${GEOSERVER_URL}/${WORKSPACE}/wfs?service=WFS&version=1.0.0&request=GetFeature&typeNames=${LAYER}&outputFormat=application/json`;
-  // Définition de la variable customlayer. 
-  const LAYER_ID = "projets_ecosante";  
+  // Définition de la variable customlayer.
+  const LAYER_ID = "projets_ecosante";
 
   const ICON_SRC = "apps/omees/ecosante/img/marker_projet.svg";
   const styleCache = {};
@@ -42,7 +42,6 @@
     const geom = feature.getGeometry();
     if (!geom) return null;
 
-    // Récupère tous les types, y compris dans les GeometryCollection
     const collectTypes = (g) => {
       if (g.getType() === "GeometryCollection") {
         return g.getGeometries().flatMap(collectTypes);
@@ -52,80 +51,92 @@
 
     const types = collectTypes(geom);
 
-    // Points (un seul style pour tous les points de la collection)
-    if (types.includes("Point") || types.includes("MultiPoint")) {
-      return styleCache.point;
-    }
+    if (types.includes("Point") || types.includes("MultiPoint")) return styleCache.point;
+    if (types.includes("LineString") || types.includes("MultiLineString")) return styleCache.line;
 
-    // Lignes
-    if (types.includes("LineString") || types.includes("MultiLineString")) {
-      return styleCache.line;
-    }
-
-    // Polygones
     const aire = feature.get("visualiseur_aire_zone_etude") || 0;
     return aire > 1500000 ? styleCache.polyLarge : styleCache.polySmall;
   };
 
+  // --- STYLE HOVER (zoom icône) ---
   const hoverPointStyle = new ol.style.Style({
-    image: new ol.style.Icon({
-      src: ICON_SRC,
-      scale: 0.33
-    }),
+    image: new ol.style.Icon({ src: ICON_SRC, scale: 0.33 }), // zoom
     zIndex: 10,
   });
 
-  const hoverStyle = function (feature) {
-    const geom = feature.getGeometry();
-    if (!geom) return null;
-
-    if (geom.getType() === "GeometryCollection") {
-      return geom.getGeometries().some(g =>
-        g.getType() === "Point" || g.getType() === "MultiPoint"
-      )
-        ? hoverPointStyle
-        : null;
-    }
-
-    const type = geom.getType();
-    return (type === "Point" || type === "MultiPoint") ? hoverPointStyle : null;
+  // Helper : la feature contient au moins un point ? (gère GeometryCollection)
+  const hasPoint = (geom) => {
+    if (!geom) return false;
+    const t = geom.getType();
+    if (t === "Point" || t === "MultiPoint") return true;
+    if (t === "GeometryCollection") return geom.getGeometries().some(hasPoint);
+    return false;
   };
-  //Appel de la donnée
+
+  // Appel de la donnée
   const layer = new ol.layer.Vector({
     source: new ol.source.Vector({
       url: LAYER_URL,
       format: new ol.format.GeoJSON(),
     }),
-    style: defaultStyle
+    style: defaultStyle,
   });
 
   layer.set("layerId", LAYER_ID);
 
+  handle = false;
+  new CustomLayer(LAYER_ID, layer, legend);
+
+  // --- HOVER "light" : pas d'interaction Select, juste un setStyle temporaire ---
   const map = mviewer.getMap();
 
-  // Hover
-  const hoverSelect = new ol.interaction.Select({
-    condition: ol.events.condition.pointerMove,
-    layers: (l) => l && l.get("layerId") === LAYER_ID,
-    style: hoverStyle,
-  });
+  let lastFeature = null;
 
-  map.addInteraction(hoverSelect);
-
-  // Curseur pointer
-  map.on("pointermove", (evt) => {
+  const onPointerMove = (evt) => {
     if (evt.dragging) return;
+
+    // reset ancienne feature hoverée
+    if (lastFeature) {
+      lastFeature.setStyle(null); // revient au style de layer (defaultStyle)
+      lastFeature = null;
+    }
 
     const pixel = evt.pixel || map.getEventPixel(evt.originalEvent);
 
-    const hit = map.hasFeatureAtPixel(pixel, {
-      layerFilter: (l) => l && l.get("layerId") === LAYER_ID,
-    });
+    const feature = map.forEachFeatureAtPixel(
+      pixel,
+      (f, l) => f,
+      {
+        layerFilter: (l) => l && l.get("layerId") === LAYER_ID,
+        hitTolerance: 5, // aide à attraper l'icône
+      }
+    );
 
-    map.getViewport().style.cursor = hit ? "pointer" : "";
+    const viewport = map.getViewport();
+    if (!feature) {
+      viewport.style.cursor = "";
+      return;
+    }
+
+    // curseur pointer seulement si point
+    if (!hasPoint(feature.getGeometry())) {
+      viewport.style.cursor = "";
+      return;
+    }
+
+    viewport.style.cursor = "pointer";
+    feature.setStyle(hoverPointStyle);
+    lastFeature = feature;
+  };
+
+  map.on("pointermove", onPointerMove);
+
+  // sécurité : si on sort de la carte, on remet le style
+  map.getViewport().addEventListener("mouseleave", () => {
+    if (lastFeature) {
+      lastFeature.setStyle(null);
+      lastFeature = null;
+    }
+    map.getViewport().style.cursor = "";
   });
-
-  
-  handle = false;
-  new CustomLayer(LAYER_ID, layer, legend);
 }
