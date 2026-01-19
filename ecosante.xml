@@ -11,7 +11,7 @@
         templatemobileinfopanel="brut">
     </application>
 
-    <mapoptions maxzoom="20" projection="EPSG:3857" center="434800.3649316455, 5408208.6468328675" zoom="12"/>
+    <mapoptions maxzoom="20" projection="EPSG:3857" center="434800.3649316455, 5408208.6468328675" zoom="11.5"/>
 
     <baselayers style="gallery">
         <baselayer visible="true" id="positron" thumbgallery="img/basemap/positron.png" title="CartoDb" label="Positron" type="OSM" url="https://{a-c}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png" attribution="Map tiles by  &lt;a href=&quot;https://cartodb.com/attributions&quot;&gt;CartoDb&lt;/a&gt;, under  &lt;a href=&quot;https://creativecommons.org/licenses/by/3.0/&quot;&gt;CC BY 3.0 &lt;/a&gt;" /> 
