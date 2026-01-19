@@ -75,8 +75,6 @@
     }),
     style: defaultStyle
   });
-
-  layer.set("layerId", LAYER_ID);
   
   handle = false;
   new CustomLayer(LAYER_ID, layer, legend);
