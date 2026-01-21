@@ -27,9 +27,9 @@
 
     <searchparameters bbox="false" localities="true" features="false" /> 
 
-    <extensions>
+    <!--<extensions>
         <extension type="component" id="filter" path="apps/omees/ecosante/addons"/>
-    </extensions>
+    </extensions>-->
 
     <styles>
         <selectionstyle>
