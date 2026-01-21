@@ -26,18 +26,45 @@
     }),
   });
 
-  const layer = new ol.layer.Vector({
-    source: new ol.source.Vector({
-      url: LAYER_URL,
-      format: new ol.format.GeoJSON({
-        dataProjection: "EPSG:4326",
-        featureProjection: "EPSG:3857",
-      }),
+  // --- Utilisatation d'un loader personnalisé car chargement des features trop rapide issue #649
+  const source = new ol.source.Vector({
+    format: new ol.format.GeoJSON({
+      dataProjection: "EPSG:4326",
+      featureProjection: "EPSG:3857",
     }),
+    loader: function (extent, resolution, projection) {
+      fetch(LAYER_URL)
+        .then(r => r.json())
+        .then(json => {
+          source.clear(true);
+          const features = source.getFormat().readFeatures(json, {
+            featureProjection: projection,
+          });
+          source.addFeatures(features);
+          console.log(`[${LAYER_ID}] LOAD ${features.length} features`);
+        })
+        .catch(err => console.error(`[${LAYER_ID}] WFS error`, err));
+    },
+  });
+
+  const layer = new ol.layer.Vector({
+    source: source,
     style: defaultStyle,
   });
 
   new CustomLayer(LAYER_ID, layer, legend);
-  console.log("INIT WFS projets_ecosante", Date.now());
 
+  let isUrlSet = false;
+
+  // --- Mise à jour de l'URL après le chargement de la source pour le bon fonctionnement du plugin filtre
+  source.on('change', function () {
+    if (source.getState() === 'ready' && !isUrlSet) {
+      setTimeout(function () {
+        if (!isUrlSet) {
+          mviewer.customLayers[LAYER_ID].layer.getSource().setUrl(LAYER_URL);
+          isUrlSet = true;
+        }
+      }, 3000);
+    }
+  });
 })();
