@@ -8,7 +8,7 @@
   const GEOSERVER_URL = "https://geodata.bac-a-sable.inrae.fr/geoserver";
   const WORKSPACE = "omees";
   const LAYER = "projets_omees";
-  const LAYER_URL = `${GEOSERVER_URL}/${WORKSPACE}/wfs?service=WFS&version=1.0.0&request=GetFeature&typeNames=${LAYER}&outputFormat=application/json`;
+  const LAYER_URL = `${GEOSERVER_URL}/${WORKSPACE}/wfs?service=WFS&version=1.0.0&request=GetFeature&typeNames=${LAYER}&outputFormat=application/json&srsName=EPSG:4326`;
   
   const ICON_SRC = "apps/omees/ecosante/img/marker_projet.svg";
  
@@ -53,16 +53,14 @@
     return null;
   };
 
-  const source = new ol.source.Vector({
-    url: LAYER_URL,
-    format: new ol.format.GeoJSON({
-      dataProjection: "EPSG:4326",
-      featureProjection: "EPSG:3857",
-    }),
-  });
-
   const layer = new ol.layer.Vector({
-    source: source,
+    source: new ol.source.Vector({
+      url: LAYER_URL,
+      format: new ol.format.GeoJSON({
+        dataProjection: "EPSG:4326",
+        featureProjection: "EPSG:3857",
+      }),
+    }),
     style: defaultStyle,
   });
 
