@@ -1,8 +1,5 @@
-(function () {
-
+{
   const LAYER_ID = "projets_ecosante";
-
-  if (mviewer?.customLayers?.[LAYER_ID]) return;
 
   // Définition des variables realtives à la couche.
   const GEOSERVER_URL = "https://geodata.bac-a-sable.inrae.fr/geoserver";
@@ -27,7 +24,8 @@
   });
 
   // --- Utilisatation d'un loader personnalisé car chargement des features trop rapide issue #649
-  const source = new ol.source.Vector({
+  const source = new ol.source.Vector({    
+    url: LAYER_URL,
     format: new ol.format.GeoJSON({
       dataProjection: "EPSG:4326",
       featureProjection: "EPSG:3857",
@@ -53,18 +51,4 @@
   });
 
   new CustomLayer(LAYER_ID, layer, legend);
-
-  let isUrlSet = false;
-
-  // --- Mise à jour de l'URL après le chargement de la source pour le bon fonctionnement du plugin filtre
-  source.on('change', function () {
-    if (source.getState() === 'ready' && !isUrlSet) {
-      setTimeout(function () {
-        if (!isUrlSet) {
-          mviewer.customLayers[LAYER_ID].layer.getSource().setUrl(LAYER_URL);
-          isUrlSet = true;
-        }
-      }, 3000);
-    }
-  });
-})();
+}
