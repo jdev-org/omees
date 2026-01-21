@@ -16,15 +16,6 @@
     }),
   });
 
-  const pointHoverStyle = new ol.style.Style({
-    image: new ol.style.Circle({
-      radius: 9, 
-      fill: new ol.style.Fill({ color: "#67c5b7" }),
-      stroke: new ol.style.Stroke({ color: "#ffffff", width: 3 }),
-    }),
-    zIndex: 10,
-  });
-
   const legend = {
     items: [
       {
@@ -57,33 +48,6 @@
       }),
     }),
     style: pointStyle
-  });
-  // --- Interaction hover (survol) ---
-  const hoverSelect = new ol.interaction.Select({
-    condition: ol.events.condition.pointerMove,
-    layers: [layer],              // limite à cette couche
-    style: pointHoverStyle,    // style appliqué aux features "hover"
-  });
-
-  mviewer.getMap().addInteraction(hoverSelect);
-
-  // Tag la couche AVANT de l'ajouter via CustomLayer
-  layer.set("layerId", LAYER_ID);
-
-  const map = mviewer.getMap();
-  const el = map.getViewport(); // plus fiable dans beaucoup d'apps que getTargetElement()
-
-  map.on("pointermove", (evt) => {
-    if (evt.dragging) return;
-
-    // selon versions, evt.pixel peut être absent -> fallback
-    const pixel = evt.pixel || map.getEventPixel(evt.originalEvent);
-
-    const hit = map.hasFeatureAtPixel(pixel, {
-      layerFilter: (l) => l && l.get("layerId") === LAYER_ID,
-    });
-
-    el.style.cursor = hit ? "pointer" : "";
   });
 
   handle = false;
