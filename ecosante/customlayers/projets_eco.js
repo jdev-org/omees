@@ -56,11 +56,25 @@
     return null;
   };
 
+  const source = new ol.source.Vector({
+    format: new ol.format.GeoJSON({ featureProjection: "EPSG:3857" }),
+    loader: function(extent, resolution, projection) {
+      fetch(LAYER_URL)
+        .then(r => r.json())
+        .then(json => {
+          source.clear(true);
+
+          const features = source.getFormat().readFeatures(json, {
+            featureProjection: projection
+          });
+          source.addFeatures(features);
+          console.log(`LOAD Features ${source.getFeatures().length}` )
+        });
+    }
+  });
+
   const layer = new ol.layer.Vector({
-    source: new ol.source.Vector({
-      url: LAYER_URL,
-      format: new ol.format.GeoJSON(),
-    }),
+    source: source,
     style: defaultStyle,
   });
 
