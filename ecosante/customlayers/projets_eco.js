@@ -2,10 +2,7 @@
 
   const LAYER_ID = "projets_ecosante";
 
-  // si déjà initialisée, on sort
-  window.__customLayers = window.__customLayers || {};
-  if (window.__customLayers[LAYER_ID]) return;
-  window.__customLayers[LAYER_ID] = true;
+  if (mviewer?.customLayers?.[LAYER_ID]) return;
 
   // Définition des variables realtives à la couche.
   const GEOSERVER_URL = "https://geodata.bac-a-sable.inrae.fr/geoserver";
@@ -57,20 +54,11 @@
   };
 
   const source = new ol.source.Vector({
-    format: new ol.format.GeoJSON({ featureProjection: "EPSG:3857" }),
-    loader: function(extent, resolution, projection) {
-      fetch(LAYER_URL)
-        .then(r => r.json())
-        .then(json => {
-          source.clear(true);
-
-          const features = source.getFormat().readFeatures(json, {
-            featureProjection: projection
-          });
-          source.addFeatures(features);
-          console.log(`LOAD Features ${source.getFeatures().length}` )
-        });
-    }
+    url: LAYER_URL,
+    format: new ol.format.GeoJSON({
+      dataProjection: "EPSG:4326",
+      featureProjection: "EPSG:3857",
+    }),
   });
 
   const layer = new ol.layer.Vector({
@@ -79,4 +67,6 @@
   });
 
   new CustomLayer(LAYER_ID, layer, legend);
+  console.log("INIT WFS projets_ecosante", Date.now());
+
 })();
