@@ -62,7 +62,7 @@
                         searchable="false" queryable="true"  
                         infoformat="application/vnd.ogc.gml" featurecount="20"
                         type="customlayer"
-                        url="apps/omees/ecosante/customlayers/projets_ecosante.js" 
+                        url="apps/omees/ecosante/customlayers/projets_eco.js" 
                         attribution="OMEES - Observatoire Montpelliérain en Écologie et Évolution de la Santé" 
                         customcontrol="true" customcontrolpath="apps/omees/ecosante/customcontrols"
                         tooltip="true" tooltipcontent="&lt;b&gt;{{projet_acronyme}}&lt;/b&gt; &lt;br&gt; {{visualiseur_sites_etude}}"
