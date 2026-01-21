@@ -1,12 +1,18 @@
-{
+(function () {
+
+  const LAYER_ID = "projets_ecosante";
+
+  // si déjà initialisée, on sort
+  window.__customLayers = window.__customLayers || {};
+  if (window.__customLayers[LAYER_ID]) return;
+  window.__customLayers[LAYER_ID] = true;
+
   // Définition des variables realtives à la couche.
   const GEOSERVER_URL = "https://geodata.bac-a-sable.inrae.fr/geoserver";
   const WORKSPACE = "omees";
   const LAYER = "projets_omees";
   const LAYER_URL = `${GEOSERVER_URL}/${WORKSPACE}/wfs?service=WFS&version=1.0.0&request=GetFeature&typeNames=${LAYER}&outputFormat=application/json`;
-  // Définition de la variable customlayer. 
-  const LAYER_ID = "projets_ecosante";  
-
+  
   const ICON_SRC = "apps/omees/ecosante/img/marker_projet.svg";
  
   const ICON_STYLE = new ol.style.Style({
@@ -57,7 +63,6 @@
     }),
     style: defaultStyle,
   });
-  
-  handle = false;
+
   new CustomLayer(LAYER_ID, layer, legend);
-}
+})();
