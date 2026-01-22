@@ -23,6 +23,14 @@
     }),
   });
 
+  const pointHoverStyle = new ol.style.Style({
+    image: new ol.style.Icon({
+      src: ICON_SRC,
+      scale: 0.32,
+    }),
+    zIndex: 10,
+  });
+
   // --- Utilisatation d'un loader personnalisé car chargement des features trop rapide issue #649
   const source = new ol.source.Vector({    
     url: LAYER_URL,
@@ -39,7 +47,6 @@
             featureProjection: projection,
           });
           source.addFeatures(features);
-          console.log(`[${LAYER_ID}] LOAD ${features.length} features`);
         })
         .catch(err => console.error(`[${LAYER_ID}] WFS error`, err));
     },
@@ -48,6 +55,32 @@
   const layer = new ol.layer.Vector({
     source: source,
     style: defaultStyle,
+  });
+
+  // --- Interaction hover (survol) ---
+  const hoverSelect = new ol.interaction.Select({
+    condition: ol.events.condition.pointerMove,
+    layers: [layer],
+    style: pointHoverStyle,
+  });
+
+  mviewer.getMap().addInteraction(hoverSelect);
+
+  layer.set("layerId", LAYER_ID);
+
+  const map = mviewer.getMap();
+  const el = map.getViewport();
+
+  map.on("pointermove", (evt) => {
+    if (evt.dragging) return;
+
+    const pixel = evt.pixel || map.getEventPixel(evt.originalEvent);
+
+    const hit = map.hasFeatureAtPixel(pixel, {
+      layerFilter: (l) => l && l.get("layerId") === LAYER_ID,
+    });
+
+    el.style.cursor = hit ? "pointer" : "";
   });
 
   new CustomLayer(LAYER_ID, layer, legend);
