@@ -1,0 +1,31 @@
+/* Police du contenu Gutenberg */
+.editor-styles-wrapper {
+    font-family: "MaPolice", sans-serif;
+}
+
+/* Paragraphes */
+.editor-styles-wrapper p {
+    font-family: "MaPolice", sans-serif;
+    line-height: 1.6;
+}
+
+/* Titres */
+.editor-styles-wrapper h1,
+.editor-styles-wrapper h2,
+.editor-styles-wrapper h3,
+.editor-styles-wrapper h4 {
+    font-family: "MaPoliceTitre", sans-serif;
+    line-height: 1.2;
+}
+
+/* Titre H2 */
+.editor-styles-wrapper h2 {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+/* Titre H3 */
+.editor-styles-wrapper h3 {
+    font-size: 22px;
+    font-weight: 600;
+}
