@@ -1,4 +1,7 @@
 <?php
+$show_actions = $args['show_actions'] ?? false;
+$show_share = $args['show_share'] ?? false;
+
 $url = get_permalink();
 $titre = get_the_title();
 
@@ -12,21 +15,24 @@ $whatsapp_url = 'https://api.whatsapp.com/send?text='
     . rawurlencode($titre . ' ' . $url);
 ?>
 
-<div class="actionBar">
 
+<div class="actionBar">
+<?php if ($show_actions) : ?>
     <div class="actionBar__tools">
 
-        <button type="button" class="actionBar__tool" onclick="window.print()">
+        <button type="button" class="actionBar__tool" aria-label="Imprimer" onclick="window.print()">
             <i class="ri-printer-line" aria-hidden="true"></i>
             <span>Imprimer</span>
         </button>
 
-        <button type="button" class="actionBar__tool" onclick="window.print()">
+        <button type="button" class="actionBar__tool" aria-label="Exporter en PDF" data-bs-toggle="modal" data-bs-target="#exportPdfModal">
             <i class="ri-file-pdf-2-line" aria-hidden="true"></i>
             <span>Exporter en PDF</span>
         </button>
-
     </div>
+
+<?php endif; ?>
+<?php if ($show_share) : ?>
 
     <div class="actionBar__share">
 
@@ -59,6 +65,7 @@ $whatsapp_url = 'https://api.whatsapp.com/send?text='
         </a>
 
     </div>
+<?php endif; ?>
 
 </div>
 

@@ -5,7 +5,7 @@
         the_post(); ?>
     
 
-    <article class="single" <?php post_class(); ?>>
+    <article class="single omees__contentMain" <?php post_class(); ?>>
         <div class="single__header">
             <div class="container p-5">            
                 <h1 class="mb-4"><?php the_title(); ?></h1>

@@ -1,0 +1,692 @@
+/* ==========================================================================
+   OMÉES — STYLES D’IMPRESSION
+   Nettoyage des doublons sans modification intentionnelle du rendu.
+   ========================================================================== */
+
+@media print {
+
+    /* ----------------------------------------------------------------------
+       BASE / TYPOGRAPHIE / COMPOSANTS
+       ---------------------------------------------------------------------- */
+
+    /* PAGE A4 */
+
+    @page {
+        size: A4;
+        margin: 15mm 15mm;
+
+        @top-left {
+            content: "OMEES — L'Observatoire Montpelliérain en Écologie et Évolution de la Santé";
+            color: #103e5c88;
+            font-family: sans-serif;
+            font-size: 8pt;
+        }
+    }
+
+    html,
+    body {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+        font-size: 10.5pt;
+        line-height: 1.55;
+    }
+
+    /* ÉLÉMENTS À MASQUER */
+
+    header,
+    footer,
+    nav,
+    .subNavbar,
+    .heading-anchor,
+    .resourceFilters,
+    .resourcePagination,
+    .pagination,
+    .publicationCard__actions,
+    .searchPage__form,
+    .btn,
+    button,
+    .no-print {
+        display: none !important;
+    }
+
+    /* CONTENU PRINCIPAL */
+
+    main,
+    main.site-main,
+    .omees__contentMain {
+        padding: 0 !important;
+        margin: 0 !important;
+        min-height: 0 !important;
+        background: transparent !important;
+    }
+
+    .single__content {
+        margin: 0mm 10mm !important;
+    }
+
+    .container,
+    .container-fluid,
+    .container-lg,
+    .container-xl,
+    .container-xxl {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    /* TYPOGRAPHIE */
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        color: #103d5c !important;
+        break-after: avoid-page;
+        page-break-after: avoid;
+    }
+
+    h1,
+    h1.pageTitle {
+        font-size: 28pt !important;
+        line-height: 1.15;
+    }
+
+    h2 {
+        font-size: 20pt !important;
+        margin-top: 9mm;
+        margin-bottom: 4mm;
+    }
+
+    h3 {
+        font-size: 15pt !important;
+        margin-top: 6mm;
+        margin-bottom: 3mm;
+    }
+
+    p,
+    li {
+        font-size: 10.5pt;
+        line-height: 1.55;
+        orphans: 3;
+        widows: 3;
+    }
+
+    /* LIENS */
+
+    main a {
+        color: var(--bs-info) !important;
+        text-decoration: underline;
+    }
+
+    /* EN-TÊTES DE PAGES / ARTICLES */
+
+    .single__header,
+    .page__header, 
+    .thematique__header {
+        padding: 0 0 0 0 !important;
+        margin-bottom: 1mm;
+        margin-top: 0mm;
+        background: transparent !important;
+        border-bottom: 1px solid #103e5c4a;
+        color: #103d5c !important;
+    }
+
+    /* BADGES */
+
+    .singleBadge,
+    .resourceCard__badge,
+    .decryptageInfos__tag {
+        display: inline;
+        padding: 2px 8px;
+        border-radius: 20px;
+        font-size: 10pt;
+        line-height: 2;
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
+        text-decoration: none !important;
+    }
+
+    .singleBadge__type {
+        background-color: #ffffff!important;
+        color: var(--bs-info)!important;
+        border: 1px solid var(--bs-info)!important;
+    }
+
+    .singleBadge__theme {
+        background-color: var(--bs-info)!important;
+        color: #ffffff!important;
+    }
+
+    .singleBadge_header {
+        background-color: #103d5c !important;
+        color: #fff !important;
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
+        text-decoration: none !important;
+    }
+
+    /* IMAGES ET LÉGENDES */
+
+    main img {
+        max-width: 100% !important;
+        height: auto !important;
+        box-shadow: none !important;
+    }
+
+    figure {
+        max-width: 100%;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    figure > figcaption {
+        font-size: 8pt;
+        color: #666 !important;
+        margin-top: 2mm;
+    }
+
+    /* BLOCS GUTENBERG */
+
+    .wp-block-image,
+    .wp-block-table,
+    .wp-block-quote,
+    .wp-block-pullquote {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .wp-block-pullquote {
+        padding: 6mm 8mm !important;
+        margin: 8mm 0;
+        border-left: 3px solid #288894;
+        background: #f4f8f9 !important;
+        text-align: left;
+    }
+
+    .wp-block-pullquote::before {
+        display: none;
+    }
+
+    .wp-block-pullquote p {
+        font-size: 12pt;
+        color: #103d5c !important;
+    }
+
+    /* DÉCRYPTAGES */
+
+    .decryptageInfos {
+        padding: 5mm !important;
+        border: 1px solid #d8e5eb;
+        border-radius: 8px;
+        background: #1f617a0f !important;
+        color: var(--bs-info) !important;
+    }
+
+    .decryptageHighlight__title h2 {
+        color: var(--bs-info) !important;
+        margin: 0 !important;
+    }
+
+    .decryptage__highlight.bg-info .decryptageHighlight__title h2 {
+        color: white !important;
+    }
+
+    .decryptage__keyPoint {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .decryptageInfos__tag {
+        background-color: var(--bs-info) !important;
+        color: white !important;
+    }
+
+    /* CARTES DOCUMENTS ET LIENS */
+
+    .documentCard,
+    .externalCard,
+    .publicationCard {
+        padding: 5mm !important;
+        margin: 5mm 0;
+        border: 1px solid #d8e5eb !important;
+        border-radius: 8px;
+        background: #fff !important;
+        color: #103d5c !important;
+        box-shadow: none !important;
+        transform: none !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .documentCard__icon,
+    .externalCard__icon {
+        display: none !important;
+    }
+
+    .documentCard__content strong,
+    .externalCard__text h3 {
+        color: #103d5c !important;
+    }
+
+    /* VIDÉOS / AUDIO */
+
+    iframe,
+    video,
+    audio {
+        display: none !important;
+    }
+
+    /* TABLEAUX */
+
+    table {
+        width: 100% !important;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        padding: 3mm;
+        border: 1px solid #ccc;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr {
+        break-inside: avoid;
+    }
+
+    /* ÉVITER LES COUPURES */
+
+    blockquote,
+    .singleBadge,
+    .publicationCard__cover {
+        break-inside: avoid;
+    }
+
+    /* Désactiver les animations et conserver les couleurs à l'impression */
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* ----------------------------------------------------------------------
+       LISIBILITÉ ET EN-TÊTES
+       ---------------------------------------------------------------------- */
+
+    /* Texte lisible */
+    main {
+        color: #222 !important;
+    }
+
+    main p,
+    main li {
+        opacity: 1 !important;
+    }
+
+    /* Titres OMÉES */
+    main h1,
+    main h2,
+    main h3,
+    main h4,
+    main .pageTitle {
+        color: #103d5c !important;
+        opacity: 1 !important;
+    }
+
+    /* Introduction et textes Bootstrap */
+    main .lead,
+    main .text-muted,
+    main .text-secondary,
+    main .text-body-secondary {
+        color: #444 !important;
+        opacity: 1 !important;
+    }
+
+    /* En-tête des articles : fond et dimensions */
+    .single__header,
+    .page__header {
+        background: #fff !important;
+        color: #103d5c !important;
+        min-height: 0 !important;
+        height: auto !important;
+    }
+
+    /* Éléments initialement masqués par animation */
+    main .fade-in {
+        opacity: 1 !important;
+    }
+
+    /* ----------------------------------------------------------------------
+       AJUSTEMENTS DE MISE EN PAGE
+       ---------------------------------------------------------------------- */
+
+    .single__header .row,
+    .page__header .row {
+        align-items: flex-start !important;
+    }
+
+    .sticky-top {
+        position: static !important;
+    }
+
+    /* ----------------------------------------------------------------------
+       CARTES EXTERNES
+       ---------------------------------------------------------------------- */
+
+    /* CARTE EXTERNE */
+
+    main a.externalCard {
+        display: grid !important;
+        grid-template-columns: 30mm minmax(0, 1fr) !important;
+        grid-template-rows: auto !important;
+        align-items: center !important;
+        column-gap: 5mm !important;
+
+        width: 100% !important;
+        height: auto !important;
+        min-height: 0 !important;
+        box-sizing: border-box !important;
+
+        padding: 3mm !important;
+        margin: 4mm 0 !important;
+
+        border: 1px solid #d8e5eb !important;
+        border-radius: 10px !important;
+
+        box-shadow: none !important;
+        text-decoration: none !important;
+
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+    }
+
+    /* IMAGE CARRÉE */
+
+    main a.externalCard .externalCard__image {
+        display: block !important;
+        grid-column: 1 !important;
+        grid-row: 1 !important;
+
+        width: 30mm !important;
+        height: 30mm !important;
+        min-width: 0 !important;
+        min-height: 0 !important;
+        max-width: none !important;
+        max-height: none !important;
+
+        aspect-ratio: 1 / 1 !important;
+
+        padding: 0 !important;
+        margin: 0 !important;
+
+        overflow: hidden !important;
+        border-radius: 5px !important;
+    }
+
+    main a.externalCard .externalCard__image img {
+        display: block !important;
+
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+
+        object-fit: cover !important;
+        object-position: center !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* CONTENU À DROITE */
+
+    main a.externalCard .externalCard__content {
+        display: flex !important;
+        grid-column: 2 !important;
+        grid-row: 1 !important;
+
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: flex-start !important;
+
+        width: 100% !important;
+        min-width: 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
+
+        padding: 0 !important;
+        margin: 0 !important;
+        gap: 0 !important;
+    }
+
+    main a.externalCard .externalCard__text {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        justify-content: center !important;
+
+        width: 100% !important;
+        min-width: 0 !important;
+
+        padding: 0 !important;
+        margin: 0 !important;
+        gap: 1.5mm !important;
+    }
+
+    /* TITRE */
+
+    main a.externalCard .externalCard__text h3 {
+        display: block !important;
+
+        font-size: 11pt !important;
+        line-height: 1.3 !important;
+        font-weight: 700 !important;
+
+        color: #103d5c !important;
+
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* URL */
+
+    main a.externalCard .externalCard__printUrl {
+        display: block !important;
+
+        width: 100% !important;
+
+        font-size: 8pt !important;
+        line-height: 1.4 !important;
+        font-weight: 400 !important;
+
+        color: #555 !important;
+
+        padding: 0 !important;
+        margin: 0 !important;
+
+        overflow-wrap: anywhere !important;
+        word-break: break-word !important;
+    }
+
+    /* ÉLÉMENTS À MASQUER */
+
+    main a.externalCard .externalCard__text p,
+    main a.externalCard .externalCard__icon {
+        display: none !important;
+    }
+
+    /* Supprimer les pseudo-éléments */
+    main a.externalCard::before,
+    main a.externalCard::after,
+    main a.externalCard .externalCard__text::after {
+        content: none !important;
+        display: none !important;
+    }
+
+    /* ----------------------------------------------------------------------
+       RESSOURCES ASSOCIÉES
+       ---------------------------------------------------------------------- */
+
+    /* GRILLE BOOTSTRAP */
+
+    .row:has(> .col-xl-4 > .resourceCard) {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 0 !important;
+
+        margin: 0 -2mm !important;
+    }
+
+    .row:has(> .col-xl-4 > .resourceCard) > .col-xl-4 {
+        flex: 0 0 33.333% !important;
+        width: 33.333% !important;
+        max-width: 33.333% !important;
+
+        padding: 0 2mm !important;
+        margin: 0 0 4mm !important;
+
+        box-sizing: border-box !important;
+        break-inside: avoid !important;
+    }
+
+    /* CARTE */
+
+    .resourceCard {
+        display: block !important;
+
+        width: 100% !important;
+        height: auto !important;
+        min-height: 0 !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+    }
+
+    .resourceCard__link {
+        display: flex !important;
+        flex-direction: column !important;
+
+        height: auto !important;
+        min-height: 0 !important;
+
+        color: #103d5c !important;
+        text-decoration: none !important;
+    }
+
+    /* IMAGE */
+
+    .resourceCard__image {
+        display: block !important;
+        position: relative !important;
+
+        width: 100% !important;
+        height: 25mm !important;
+        min-height: 0 !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        overflow: visible !important;
+        border-radius: 4px !important;
+    }
+
+    .resourceCard__image img {
+        display: block !important;
+
+        width: 100% !important;
+        height: 25mm !important;
+
+        object-fit: cover !important;
+        object-position: center !important;
+
+        border-radius: 4px !important;
+    }
+
+    /* BADGES SOUS L'IMAGE */
+
+    .resourceCard__badgeGrid {
+        display: flex !important;
+        position: static !important;
+
+        flex-wrap: wrap !important;
+        align-items: flex-start !important;
+
+        width: 100% !important;
+        gap: 1mm !important;
+
+        margin: 2mm 0 0 !important;
+        padding: 0 !important;
+
+        transform: none !important;
+    }
+
+    .resourceCard__badge {
+        display: inline-block !important;
+
+        padding: 1px 5px !important;
+
+        font-size: 7pt !important;
+        line-height: 1.3 !important;
+        font-weight: 500 !important;
+
+        color: #103d5c !important;
+        background: #fff !important;
+
+        border: 1px solid #d8e5eb !important;
+        border-radius: 20px !important;
+
+        white-space: normal !important;
+    }
+
+    /* TITRE */
+
+    .resourceCard__title {
+        display: block !important;
+
+        font-size: 10pt !important;
+        line-height: 1.3 !important;
+        font-weight: 700 !important;
+
+        color: #103d5c !important;
+
+        margin: 9mm 0 0 !important;
+        padding: 0 !important;
+
+        height: auto !important;
+        max-height: none !important;
+
+        overflow: visible !important;
+        text-overflow: clip !important;
+
+        white-space: normal !important;
+        -webkit-line-clamp: unset !important;
+    }
+
+    /* SUPPRIMER LES EFFETS */
+
+    .resourceCard,
+    .resourceCard__link,
+    .resourceCard__image img {
+        transform: none !important;
+        transition: none !important;
+    }
+
+}

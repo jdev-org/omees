@@ -1,4 +1,15 @@
 <?php
+// La page 404 conserve sa fin de document sans pied de page visible.
+if (is_404()) {
+    ?>
+</main>
+<?php wp_footer(); ?>
+</body>
+</html>
+    <?php
+    return;
+}
+
 $options = get_option('omees_theme_options', []);
 
 $footer_logo   = wp_get_attachment_url($options['footer_logo'] ?? 0);
@@ -7,6 +18,86 @@ $partners      = $options['partners'] ?? [];
 $email    = $options['contact_email'] ?? '';
 $linkedin = $options['linkedin_url'] ?? '';
 ?>
+
+<div
+    class="modal fade exportPdfModal no-print"
+    id="exportPdfModal"
+    tabindex="-1"
+    aria-labelledby="exportPdfModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <div class="exportPdfModal__heading">
+                    <div class="exportPdfModal__icon">
+                        <i class="ri-file-pdf-2-line" aria-hidden="true"></i>
+                    </div>
+
+                    <div>
+                        <h2 class="modal-title" id="exportPdfModalLabel">
+                            Enregistrer en PDF
+                        </h2>
+                    </div>
+                </div>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Fermer"
+                ></button>
+            </div>
+
+            <div class="modal-body">
+                <h3 class="exportPdfModal__subtitle">
+                    Comment faire ?
+                </h3>
+
+                <ol class="exportPdfModal__steps">
+                    <li>
+                        <strong>Ouvrez l'impression</strong>
+                        <span>Cliquez sur le bouton ci-dessous.</span>
+                    </li>
+
+                    <li>
+                        <strong>Choisissez le format PDF</strong>
+                        <span>
+                            Dans « Destination » ou « Imprimante »,
+                            sélectionnez « Enregistrer au format PDF ».
+                        </span>
+                    </li>
+
+                    <li>
+                        <strong>Enregistrez le document</strong>
+                        <span>Choisissez où conserver votre fichier.</span>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Annuler
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="confirmExportPdf"
+                >
+                    <i class="ri-printer-line" aria-hidden="true"></i>
+                    Ouvrir l'impression
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 </main>
     <footer class="site-footer mt-5" id="omees__footer">

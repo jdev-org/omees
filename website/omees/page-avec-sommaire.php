@@ -6,7 +6,7 @@
 
 get_header(); ?>
 
-<div class="page">
+<div class="page omees__contentMain">
 
     <?php while (have_posts()):
         the_post(); ?>
@@ -30,7 +30,7 @@ get_header(); ?>
                         <?php get_template_part('template-parts/sommaire'); ?>
                     </aside>
                 </div>  
-                <div class="col-md-9 pageLayout__content">
+                <div class="offset-md-1 col-md-8 pageLayout__content">
                     <?php the_content(); ?>
                 </div>  
             </div>

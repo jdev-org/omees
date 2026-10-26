@@ -25,7 +25,7 @@ for ($i = 1; $i <= 5; $i++) {
         the_post(); ?>
     
 
-    <article class="single" <?php post_class(); ?>>
+    <article class="single omees__contentMain" <?php post_class(); ?>>
         <div class="single__header bg-info text-white">
             <div class="container py-5">   
                 <div class="mb-4"><span class="singleBadge_header">NOS DECRYPTAGES</span></div>  
@@ -146,7 +146,7 @@ for ($i = 1; $i <= 5; $i++) {
                         <?php get_template_part('template-parts/sommaire'); ?>
                     </aside>
                     </div>
-                <div class="col-md-9 pageLayout__content">
+                <div class="offset-md-1 col-md-8 pageLayout__content">
                         <!-- Img mise en avant -->
                         <?php if (has_post_thumbnail()): ?>
 

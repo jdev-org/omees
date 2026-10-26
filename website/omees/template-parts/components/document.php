@@ -1,6 +1,8 @@
 <?php
 $url = $args['url'] ?? '';
 $titre = $args['titre'] ?? '';
+$label = $args['label'] ?? 'Télécharger le fichier';
+
 
 if (!$url) {
     return;
@@ -9,7 +11,7 @@ if (!$url) {
 
 <a
         href="<?php echo esc_url($url); ?>"
-        class="externalCard mb-5"
+        class="externalCard my-2"
         target="_blank"
         rel="noopener noreferrer"
     >
@@ -17,7 +19,7 @@ if (!$url) {
 
             <div class="externalCard__text">
                 <h3>
-                     Télécharger le fichier
+                     <?php echo esc_html($label); ?>
                 </h3>
 
                 <p><?php if ($titre) : ?>

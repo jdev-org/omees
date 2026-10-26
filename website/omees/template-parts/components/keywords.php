@@ -11,7 +11,9 @@ if (!empty($etiquettes) && !is_wp_error($etiquettes)) : ?>
         <?php foreach ($etiquettes as $etiquette) : ?>
             <a
                 class="singleBadge singleBadge__keyWord"
-                href="<?php echo esc_url(get_term_link($etiquette)); ?>"
+                href="<?php echo esc_url(
+                    add_query_arg('s', $etiquette->name, home_url('/'))
+                ); ?>"
             >
                 <?php echo esc_html($etiquette->name); ?>
             </a>

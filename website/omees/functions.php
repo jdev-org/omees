@@ -5,6 +5,8 @@ if (!defined('ABSPATH')) {
 require_once get_template_directory() . '/inc/setup.php';
 require_once get_template_directory() . '/inc/enqueue.php';
 require_once get_template_directory() . '/inc/theme-options.php';
+require_once get_template_directory() . '/inc/home-options.php';
+require_once get_template_directory() . '/inc/catalogues-options.php';
 
 add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style('sommaire', get_template_directory_uri() . '/assets/css/sommaire.css', [], '1.0');
@@ -48,53 +50,56 @@ add_action('after_setup_theme', function () {
 
 /* Document block custom */
 
-add_filter(
-    'render_block_core/file',
-    function ($block_content, $block) {
-        // Ne pas modifier le rendu dans l'éditeur
-        if (is_admin()) {
-            return $block_content;
-        }
+add_filter('render_block_core/file', function ($block_content, $block) {
 
-        $url = $block['attrs']['href'] ?? '';
+    if (is_admin()) {
+        return $block_content;
+    }
 
-        // Récupérer le nom du fichier depuis le bloc
-        $titre = '';
+    $url = $block['attrs']['href'] ?? '';
+    $titre = '';
+    $label = 'Télécharger le fichier';
 
-        if (!empty($block['innerHTML'])) {
-            $dom = new DOMDocument();
+    if (!empty($block['innerHTML'])) {
+        $dom = new DOMDocument();
 
-            libxml_use_internal_errors(true);
-            $dom->loadHTML('<?xml encoding="utf-8" ?>' . $block['innerHTML']);
-            libxml_clear_errors();
+        libxml_use_internal_errors(true);
+        $dom->loadHTML('<?xml encoding="utf-8" ?>' . $block['innerHTML']);
+        libxml_clear_errors();
 
-            foreach ($dom->getElementsByTagName('a') as $lien) {
-                if (
-                    !$lien->hasAttribute('class') ||
-                    !str_contains($lien->getAttribute('class'), 'wp-block-file__button')
-                ) {
-                    $titre = trim($lien->textContent);
-                    break;
+        foreach ($dom->getElementsByTagName('a') as $lien) {
+
+            $classes = $lien->getAttribute('class');
+
+            if (str_contains($classes, 'wp-block-file__button')) {
+                // Texte du bouton Gutenberg
+                $texte = trim($lien->textContent);
+
+                if ($texte !== '') {
+                    $label = $texte;
                 }
+            } else {
+                // Nom du fichier
+                $titre = trim($lien->textContent);
             }
         }
+    }
 
-        if (!$url) {
-            return $block_content;
-        }
+    if (!$url) {
+        return $block_content;
+    }
 
-        ob_start();
+    ob_start();
 
-        get_template_part('template-parts/components/document', null, [
-            'url' => $url,
-            'titre' => $titre,
-        ]);
+    get_template_part('template-parts/components/document', null, [
+        'url'   => $url,
+        'titre' => $titre,
+        'label' => $label,
+    ]);
 
-        return ob_get_clean();
-    },
-    10,
-    2,
-);
+    return ob_get_clean();
+
+}, 10, 2);
 
 add_filter('single_template', function ($template) {
     if (is_singular('ressource') && has_term('decryptage', 'type-de-contenu', get_queried_object_id())) {
@@ -119,7 +124,7 @@ add_action('pre_get_posts', function ($query) {
         return;
     }
 
-    $query->set('posts_per_page', 16);
+    $query->set('posts_per_page', 12);
 
     $filtres = [
         'types' => 'type-de-contenu',
@@ -158,21 +163,80 @@ add_action('pre_get_posts', function ($query) {
 add_action('wp_ajax_filter_resources', 'omees_filter_resources');
 add_action('wp_ajax_nopriv_filter_resources', 'omees_filter_resources');
 
-function omees_filter_resources()
-{
+function omees_filter_resources() {
+
     check_ajax_referer('omees_resource_filters', 'nonce');
 
-    $types =
-        isset($_POST['types']) && is_array($_POST['types'])
-            ? array_map('sanitize_title', wp_unslash($_POST['types']))
-            : [];
+    $types = isset($_POST['types']) && is_array($_POST['types'])
+        ? array_map('sanitize_title', wp_unslash($_POST['types']))
+        : [];
 
-    $thematiques =
-        isset($_POST['thematiques']) && is_array($_POST['thematiques'])
-            ? array_map('sanitize_title', wp_unslash($_POST['thematiques']))
-            : [];
+    $thematiques = isset($_POST['thematiques']) && is_array($_POST['thematiques'])
+        ? array_map('sanitize_title', wp_unslash($_POST['thematiques']))
+        : [];
 
-    $page = isset($_POST['page']) ? max(1, absint($_POST['page'])) : 1;
+    $fixed_type = isset($_POST['fixed_type']) && is_string($_POST['fixed_type'])
+        ? sanitize_title(wp_unslash($_POST['fixed_type']))
+        : '';
+
+    // Types autorisés pour les pages spécialisées.
+    $allowed_fixed_types = ['carte', 'decryptage'];
+
+    if (!in_array($fixed_type, $allowed_fixed_types, true)) {
+        $fixed_type = '';
+    }
+
+    $page = isset($_POST['page'])
+        ? max(1, absint($_POST['page']))
+        : 1;
+
+    $query = omees_get_resources_query([
+        'fixed_type' => $fixed_type,
+        'types' => $types,
+        'thematiques' => $thematiques,
+        'paged' => $page,
+    ]);
+
+    $total = (int) $query->found_posts;
+
+    ob_start();
+
+    get_template_part('template-parts/components/resource-results', null, [
+        'query' => $query,
+        'fixed_type' => $fixed_type,
+    ]);
+
+    $html = ob_get_clean();
+
+    wp_send_json_success([
+        'html' => $html,
+        'total' => $total,
+    ]);
+}
+/**
+ * Construit une requête de ressources.
+ */
+function omees_get_resources_query($args = []) {
+
+    $defaults = [
+        'fixed_type' => '',
+        'types' => [],
+        'thematiques' => [],
+        'paged' => 1,
+        'posts_per_page' => 12,
+    ];
+
+    $args = wp_parse_args($args, $defaults);
+
+    $fixed_type = sanitize_title($args['fixed_type']);
+
+    $types = array_map('sanitize_title', (array) $args['types']);
+    $thematiques = array_map('sanitize_title', (array) $args['thematiques']);
+
+    // Un type fixe est prioritaire sur les filtres sélectionnés.
+    if ($fixed_type) {
+        $types = [$fixed_type];
+    }
 
     $tax_query = ['relation' => 'AND'];
 
@@ -194,46 +258,189 @@ function omees_filter_resources()
         ];
     }
 
-    $args = [
+    $query_args = [
         'post_type' => 'ressource',
         'post_status' => 'publish',
-        'posts_per_page' => 16,
-        'paged' => $page,
+        'posts_per_page' => absint($args['posts_per_page']),
+        'paged' => max(1, absint($args['paged'])),
     ];
 
     if (count($tax_query) > 1) {
-        $args['tax_query'] = $tax_query;
+        $query_args['tax_query'] = $tax_query;
     }
 
-    $ressources = new WP_Query($args);
+    return new WP_Query($query_args);
+}
+
+
+/**
+ * Filtres dans l'administration des ressources.
+ */
+add_action('restrict_manage_posts', function ($post_type) {
+
+    if ($post_type !== 'ressource') {
+        return;
+    }
+
+    $taxonomies = [
+        'type-de-contenu' => 'Tous les types de contenu',
+        'thematique'      => 'Toutes les thématiques',
+    ];
+
+    foreach ($taxonomies as $taxonomy => $label) {
+
+        $selected = isset($_GET[$taxonomy]) && is_string($_GET[$taxonomy])
+            ? sanitize_title(wp_unslash($_GET[$taxonomy]))
+            : '';
+
+        wp_dropdown_categories([
+            'show_option_all' => $label,
+            'taxonomy'        => $taxonomy,
+            'name'            => $taxonomy,
+            'orderby'         => 'name',
+            'selected'        => $selected,
+            'hierarchical'    => true,
+            'hide_empty'      => false,
+            'value_field'     => 'slug',
+            'show_count'      => false,
+        ]);
+    }
+
+}, 10, 1);
+
+
+/**
+ * Colonnes personnalisées dans la liste des ressources.
+ */
+add_filter('manage_ressource_posts_columns', function ($columns) {
+
+    $columns['resource_type'] = 'Type de contenu';
+    $columns['resource_theme'] = 'Thématiques';
+
+    return $columns;
+});
+
+add_action('manage_ressource_posts_custom_column', function ($column, $post_id) {
+
+    $taxonomy = match ($column) {
+        'resource_type'  => 'type-de-contenu',
+        'resource_theme' => 'thematique',
+        default          => null,
+    };
+
+    if (!$taxonomy) {
+        return;
+    }
+
+    $terms = get_the_terms($post_id, $taxonomy);
+
+    if (empty($terms) || is_wp_error($terms)) {
+        echo '—';
+        return;
+    }
+
+    echo esc_html(implode(', ', wp_list_pluck($terms, 'name')));
+
+}, 10, 2);
+
+
+
+/**
+ * Inclure les pages, articles et ressources
+ * dans la recherche WordPress.
+ */
+add_action('pre_get_posts', function ($query) {
+
+    if (
+        is_admin() ||
+        !$query->is_main_query() ||
+        !$query->is_search()
+    ) {
+        return;
+    }
+
+    $query->set('post_type', [
+        'page',
+        'post',
+        'ressource',
+    ]);
+
+    $query->set('posts_per_page', 12);
+});
+
+/**
+ * Styles des blocs Gutenberg — Front-end
+ */
+add_action('wp_enqueue_scripts', function () {
+    wp_enqueue_style(
+        'omees-gutenberg-blocks',
+        get_template_directory_uri() . '/assets/css/gutenberg-blocks.css',
+        [],
+        filemtime(get_template_directory() . '/assets/css/gutenberg-blocks.css')
+    );
+});
+
+/**
+ * Styles des blocs Gutenberg — Éditeur
+ */
+add_action('after_setup_theme', function () {
+    add_theme_support('editor-styles');
+
+    add_editor_style('assets/css/gutenberg-blocks.css');
+});
+
+/* Lien externe — Bloc Bouton Gutenberg */
+
+add_filter('render_block_core/button', function ($block_content, $block) {
+
+    // Conserver le bouton normal dans l'éditeur
+    if (is_admin()) {
+        return $block_content;
+    }
+
+    // Ne transformer que les boutons avec cette classe
+    $classes = $block['attrs']['className'] ?? '';
+
+    if (!in_array('is-style-external-card', preg_split('/\s+/', $classes), true)) {
+        return $block_content;
+    }
+
+    $url = '';
+    $label = '';
+
+    if (!empty($block_content)) {
+
+        $dom = new DOMDocument();
+
+        libxml_use_internal_errors(true);
+        $dom->loadHTML('<?xml encoding="utf-8" ?>' . $block_content);
+        libxml_clear_errors();
+
+        foreach ($dom->getElementsByTagName('a') as $lien) {
+            $url = $lien->getAttribute('href');
+            $label = trim($lien->textContent);
+            break;
+        }
+    }
+
+    if (!$url) {
+        return $block_content;
+    }
 
     ob_start();
 
-    echo '<div class="row g-4">';
-
-    if ($ressources->have_posts()) {
-        while ($ressources->have_posts()) {
-            $ressources->the_post();
-
-            echo '<div class="col-12 col-md-6 col-lg-4">';
-            get_template_part('template-parts/components/ressource-card');
-            echo '</div>';
-        }
-    } else {
-        echo '<div class="col-12"><p>Aucune ressource trouvée.</p></div>';
-    }
-
-    echo '</div>';
-
-    get_template_part('template-parts/components/resource-pagination', null, [
-        'total_pages' => (int) $ressources->max_num_pages,
-        'current_page' => $page,
+    get_template_part('template-parts/components/external-card', null, [
+        'url'   => $url,
+        'label' => $label,
     ]);
 
-    wp_reset_postdata();
+    return ob_get_clean();
 
-    wp_send_json_success([
-        'html' => ob_get_clean(),
-        'total' => $ressources->found_posts,
+}, 10, 2);
+
+add_action('init', function () {
+    register_block_style('core/button', [
+        'name'  => 'external-card',
+        'label' => 'Lien externe',
     ]);
-}
+});

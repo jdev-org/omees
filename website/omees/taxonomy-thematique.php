@@ -16,7 +16,7 @@ $comprendre = get_field('presentation_de_la_thematique', 'term_' . $term->term_i
 $pour_aller_plus_loin = get_field('pour_aller_plus_loin', 'term_' . $term->term_id);
 ?>
 
-<main class="thematique">
+<div class="thematique omees__contentMain">
 
 
     <section class="thematique__header bg-info text-white py-5"
@@ -50,7 +50,7 @@ $pour_aller_plus_loin = get_field('pour_aller_plus_loin', 'term_' . $term->term_
                                             <?php get_template_part('template-parts/sommaire'); ?>
                                         </aside>
                                     </div>
-                                    <div class="col-lg-9 pageLayout__content">
+                                    <div class="offset-md-1 col-md-8 pageLayout__content">
                                             <section>
                                                 <h2>Comprendre</h2>
                                                 <?php echo wp_kses_post($comprendre); ?>
@@ -87,7 +87,7 @@ $pour_aller_plus_loin = get_field('pour_aller_plus_loin', 'term_' . $term->term_
                                     $ressources->the_post(); ?>
 
                                     <div class="col-12 col-md-6 col-xl-4">
-                                        <?php get_template_part('template-parts/components/ressource-card'); ?>
+                                        <?php get_template_part('template-parts/components/resource-card'); ?>
                                     </div>
 
                                 <?php
@@ -111,6 +111,6 @@ $pour_aller_plus_loin = get_field('pour_aller_plus_loin', 'term_' . $term->term_
         </section>
 
 
-</main>
+</div>
 
 <?php get_footer(); ?>

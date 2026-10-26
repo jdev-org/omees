@@ -44,6 +44,11 @@ $url = $options['url_de_redirection'] ?? '';
                 </h3>
 
                 <p>S'ouvre dans un nouvel onglet</p>
+                <span class="externalCard__printUrl">
+                    <?php echo esc_html(
+                        preg_replace('#^https?://#', '', $url)
+                    ); ?>
+                </span>
             </div>
 
             <span class="externalCard__icon" aria-hidden="true">
@@ -54,12 +59,16 @@ $url = $options['url_de_redirection'] ?? '';
 
     </a>
 
-<?php endif; ?>
-            <h3 class="mb-3">À propos de cette ressource</h3>
-                    <?php the_content(); ?>
-qs
-                    <?php
-                    get_template_part('template-parts/components/keywords');
-                    ?>
-                </div>                
-                            </div>
+    <?php endif; ?>
+                <?php if (trim(get_the_content()) !== '') : ?>
+
+        <h3 class="mb-3">À propos de cette ressource</h3>
+
+        <?php the_content(); ?>
+
+    <?php endif; ?>
+    <?php
+        get_template_part('template-parts/components/keywords');
+    ?>
+    </div>                
+</div>

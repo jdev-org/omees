@@ -54,10 +54,16 @@ if (is_array($fichier)) {
 
     
     <?php endif; ?>
+    <?php if (trim(get_the_content()) !== '') : ?>
 
-    <div class="mt-5">
-    <?php the_content(); ?>
-    </div>
+        <h3 class="mt-5 mb-3">À propos de cette ressource</h3>
 
-<?php get_template_part("template-parts/components/keywords"); ?>
-                </div>                
+        <?php the_content(); ?>
+
+    <?php endif; ?>
+
+    <?php
+        get_template_part('template-parts/components/keywords');
+    ?>
+    </div>                
+</div>

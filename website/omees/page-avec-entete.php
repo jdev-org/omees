@@ -6,7 +6,7 @@
 
 get_header(); ?>
 
-<div class="page">
+<div class="page omees__contentMain">
 
     <?php while (have_posts()):
         the_post(); ?>

@@ -21,4 +21,4 @@
     >
         <i class="ri-search-line"></i> Rechercher
     </button>
-</div>
+</form>
