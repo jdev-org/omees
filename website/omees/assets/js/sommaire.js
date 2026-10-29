@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function initOmeesSommaire() {
 
     const sommaire = document.querySelector('.sommaire');
     const content = document.querySelector('.pageLayout__content');
@@ -24,15 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Ajout d'un ID unique si absent
         if (!heading.id) {
-            const baseId = `section-${index + 1}`;
-            let id = baseId;
-            let suffix = 2;
-
-            while (document.getElementById(id)) {
-                id = `${baseId}-${suffix++}`;
-            }
-
-            heading.id = id;
+            window.omeesEnsureHeadingId(heading, `section-${index + 1}`);
         }
 
         // Ajout automatique de la classe

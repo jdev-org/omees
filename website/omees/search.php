@@ -6,7 +6,7 @@ $search_query = get_search_query();
 global $wp_query;
 ?>
 
-<main class="searchPage">
+<div class="searchPage">
     <div class="container py-5">
 
         <h1 class="mb-3">Résultats de recherche</h1>
@@ -139,24 +139,19 @@ if ($search_query !== '') {
 
         <?php else : ?>
 
-            <div class="resourceEmpty text-center my-5">
-
-                <div class="resourceEmpty__icon mb-2">
-                    <i class="ri-search-eye-line ri-lg"></i>
-                </div>
-
-                <h2 class="h5">Aucun résultat pour cette recherche</h2>
-
-                <p>
-                    Essayez d'utiliser d'autres mots-clés
-                    ou de simplifier votre recherche.
-                </p>
-
-            </div>
+            <?php
+            get_template_part('template-parts/components/resource-empty', null, [
+                'title' => 'Aucun résultat pour cette recherche',
+                'message' => "Essayez d'utiliser d'autres mots-clés ou de simplifier votre recherche.",
+                'heading_tag' => 'h2',
+                'heading_class' => 'h5',
+                'classes' => 'text-center my-5',
+            ]);
+            ?>
 
         <?php endif; ?>
 
     </div>
-</main>
+</div>
 
 <?php get_footer(); ?>

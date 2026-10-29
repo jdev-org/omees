@@ -44,6 +44,7 @@
                                 data-bs-target="#searchContainer"
                                 aria-expanded="false"
                                 aria-controls="searchContainer"
+                                aria-haspopup="dialog"
                                 aria-label="<?php esc_attr_e('Ouvrir la recherche', 'mon-theme'); ?>"
                             >
                                 <i
@@ -77,7 +78,14 @@
 
         <?php get_template_part('template-parts/components/sub-navbar');?>
         <!-- RECHERCHE -->
-        <div class="collapse w-100" id="searchContainer">
+        <div
+            class="collapse w-100"
+            id="searchContainer"
+            role="dialog"
+            aria-label="<?php esc_attr_e('Recherche sur le site', 'mon-theme'); ?>"
+            aria-hidden="true"
+            tabindex="-1"
+        >
 
             <div class="search-container">
 

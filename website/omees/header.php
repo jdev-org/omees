@@ -8,12 +8,16 @@
     <?php wp_head(); ?>
 </head>
 
-<body class="d-flex flex-column min-vh-100" <?php body_class(); ?>>
+<body <?php body_class('d-flex flex-column min-vh-100'); ?>>
 
     <?php wp_body_open(); ?>
+
+    <a class="skip-link visually-hidden-focusable no-print" href="#omees-main-content">
+        <?php esc_html_e('Aller au contenu principal', 'omees'); ?>
+    </a>
 
     <?php if (!is_404()) : ?>
         <?php get_template_part('template-parts/components/navbar'); ?>
     <?php endif; ?>
 
-    <main class="site-main flex-grow-1">
+    <main class="site-main flex-grow-1" id="omees-main-content" tabindex="-1">

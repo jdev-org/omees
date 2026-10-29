@@ -66,4 +66,3 @@ if (is_array($fichier)) {
         get_template_part('template-parts/components/keywords');
     ?>
     </div>                
-</div>

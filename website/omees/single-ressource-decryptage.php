@@ -25,7 +25,7 @@ for ($i = 1; $i <= 5; $i++) {
         the_post(); ?>
     
 
-    <article class="single omees__contentMain" <?php post_class(); ?>>
+    <article <?php post_class('single omees__contentMain'); ?>>
         <div class="single__header bg-info text-white">
             <div class="container py-5">   
                 <div class="mb-4"><span class="singleBadge_header">NOS DECRYPTAGES</span></div>  

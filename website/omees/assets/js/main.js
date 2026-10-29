@@ -1,73 +1,146 @@
 
+/* Aller au contenu : conserver la navigation native vers l'ancre. */
+document.addEventListener('DOMContentLoaded', function initOmeesSkipLink() {
+    const skipLink = document.querySelector('.skip-link');
+    const content = document.querySelector('#omees-main-content');
+
+    if (!skipLink || !content) return;
+
+    skipLink.addEventListener('click', () => {
+        content.focus({ preventScroll: true });
+    });
+});
+
 /* =========================================
    RECHERCHE
 ========================================= */
 
-const searchToggle = document.querySelector('.search-toggle');
-const searchContainer = document.querySelector('.search-container');
+document.addEventListener('DOMContentLoaded', function initOmeesSearch() {
+    const searchToggle = document.querySelector('.search-toggle');
+    const searchPanel = document.querySelector('#searchContainer');
 
-if (searchToggle && searchContainer) {
-    searchToggle.addEventListener('click', () => {
-        searchContainer.classList.toggle('is-open');
+    if (!searchToggle || !searchPanel || !window.bootstrap?.Collapse) return;
 
-        const isOpen = searchContainer.classList.contains('is-open');
+    const backgroundStates = new Map();
+    let state = 'closed';
+    let closeAfterOpen = false;
 
-        searchToggle.setAttribute('aria-expanded', String(isOpen));
-    });
-}
+    function focusableElements() {
+        return [...searchPanel.querySelectorAll(
+            'a[href], button, input, select, textarea, [tabindex], [contenteditable="true"]'
+        )].filter((element) => !element.disabled && element.tabIndex >= 0
+            && !element.closest('[inert]') && element.getClientRects().length > 0);
+    }
 
+    function focusSearch() {
+        const elements = focusableElements();
+        const input = elements.find((element) => element.matches('input[type="search"]'));
+        (input || elements[0] || searchPanel).focus({ preventScroll: true });
+    }
 
-/* =========================================
-   MENU PRINCIPAL
-========================================= */
-
-const menuParents = document.querySelectorAll(
-    '#menu-header > .menu-item-has-children'
-);
-
-menuParents.forEach((menuItem) => {
-    const link = menuItem.querySelector(':scope > a');
-
-    if (!link) return;
-
-    link.setAttribute('aria-expanded', 'false');
-
-    link.addEventListener('click', (event) => {
-        event.preventDefault();
-
-        const isOpen = menuItem.classList.contains('is-open');
-
-        // Fermer les autres sous-menus
-        menuParents.forEach((item) => {
-            item.classList.remove('is-open');
-
-            const itemLink = item.querySelector(':scope > a');
-
-            if (itemLink) {
-                itemLink.setAttribute('aria-expanded', 'false');
+    function isolateBackground() {
+        // Isoler les branches voisines, sans rendre le header parent inerte.
+        for (let branch = searchPanel; branch.parentElement; branch = branch.parentElement) {
+            for (const sibling of branch.parentElement.children) {
+                if (sibling === branch || sibling.matches('script, style, link, meta, template')) continue;
+                backgroundStates.set(sibling, sibling.inert);
+                sibling.inert = true;
             }
-        });
 
-        // Ouvrir le sous-menu sélectionné
-        if (!isOpen) {
-            menuItem.classList.add('is-open');
-            link.setAttribute('aria-expanded', 'true');
+            if (branch.parentElement === document.body) break;
+        }
+    }
+
+    function closeSearch() {
+        // Collapse ignore hide() pendant sa transition d'ouverture.
+        if (state === 'opening') {
+            closeAfterOpen = true;
+        } else if (state === 'open') {
+            bootstrap.Collapse.getOrCreateInstance(searchPanel, { toggle: false }).hide();
+        }
+    }
+
+    searchPanel.addEventListener('click', (event) => {
+        // Le bouton reste utilisable pendant l'ouverture animée de Collapse.
+        if (state !== 'opening' || !event.target.closest('.search-close')) return;
+        event.preventDefault();
+        event.stopPropagation();
+        closeSearch();
+    });
+
+    searchPanel.addEventListener('show.bs.collapse', (event) => {
+        if (event.target !== searchPanel || event.defaultPrevented) return;
+        state = 'opening';
+        closeAfterOpen = false;
+        searchPanel.removeAttribute('aria-hidden');
+    });
+
+    searchPanel.addEventListener('shown.bs.collapse', (event) => {
+        if (event.target !== searchPanel) return;
+        state = 'open';
+        searchToggle.setAttribute('aria-expanded', 'true');
+
+        if (closeAfterOpen) {
+            closeSearch();
+            return;
+        }
+
+        searchPanel.setAttribute('aria-modal', 'true');
+        focusSearch();
+        isolateBackground();
+    });
+
+    searchPanel.addEventListener('hide.bs.collapse', (event) => {
+        if (event.target !== searchPanel || event.defaultPrevented) return;
+        state = 'closing';
+    });
+
+    searchPanel.addEventListener('hidden.bs.collapse', (event) => {
+        if (event.target !== searchPanel) return;
+        state = 'closed';
+        backgroundStates.forEach((wasInert, element) => { element.inert = wasInert; });
+        backgroundStates.clear();
+        searchPanel.removeAttribute('aria-modal');
+        searchToggle.setAttribute('aria-expanded', 'false');
+
+        searchToggle.focus({ preventScroll: true });
+        searchPanel.setAttribute('aria-hidden', 'true');
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (state === 'closed') return;
+
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            event.stopPropagation();
+            closeSearch();
+            return;
+        }
+
+        if (event.key !== 'Tab') return;
+
+        if (state !== 'open') {
+            event.preventDefault();
+            return;
+        }
+
+        const elements = focusableElements();
+        const first = elements[0];
+        const last = elements[elements.length - 1];
+
+        if (!first) {
+            event.preventDefault();
+            searchPanel.focus({ preventScroll: true });
+        } else if (!elements.includes(document.activeElement)
+            || (event.shiftKey && document.activeElement === first)
+            || (!event.shiftKey && document.activeElement === last)) {
+            event.preventDefault();
+            (event.shiftKey ? last : first).focus({ preventScroll: true });
         }
     });
-});
 
-// Fermer les menus au clic extérieur
-document.addEventListener('click', (event) => {
-    if (event.target.closest('#menu-header')) return;
-
-    menuParents.forEach((menuItem) => {
-        menuItem.classList.remove('is-open');
-
-        const link = menuItem.querySelector(':scope > a');
-
-        if (link) {
-            link.setAttribute('aria-expanded', 'false');
-        }
+    document.addEventListener('focusin', (event) => {
+        if (state === 'open' && !searchPanel.contains(event.target)) focusSearch();
     });
 });
 
@@ -76,7 +149,10 @@ document.addEventListener('click', (event) => {
    NAVBAR AU SCROLL
 ========================================= */
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function initOmeesScrollNavbar() {
+    // Le catalogue laisse le header dans le flux pour le sticky du Datahub.
+    if (document.body.classList.contains('page-template-page-catalogue-donnees-php')) return;
+
     const navbar = document.querySelector('.scrollNavbar');
     const subNavbar = document.querySelector('.subNavbar');
 
@@ -129,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
    Médiathèque / Cartothèque / Décryptages
 ========================================= */
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function initOmeesResourceFilters() {
     const form = document.querySelector('#resourceFilters');
     const results = document.querySelector('#resourceResults');
     const count = document.querySelector('#resourceCount');
@@ -142,16 +218,44 @@ document.addEventListener('DOMContentLoaded', () => {
     // Type fixe de la page : carte, decryptage ou vide
     const fixedType = form.dataset.type || '';
 
-    console.log('Type fixe :', fixedType);
-    
+    // En dehors des résultats remplacés par AJAX pour conserver le bouton de reprise.
+    const errorBox = document.createElement('div');
+    errorBox.className = 'alert alert-warning';
+    errorBox.hidden = true;
+    const errorMessage = document.createElement('p');
+    errorMessage.setAttribute('role', 'alert');
+    const retryButton = document.createElement('button');
+    retryButton.type = 'button';
+    retryButton.className = 'btn';
+    retryButton.textContent = 'Réessayer';
+    errorBox.append(errorMessage, retryButton);
+    results.before(errorBox);
+
+    function showError(message) {
+        errorBox.hidden = false;
+        errorMessage.textContent = message;
+    }
+
     if (!ajaxUrl || !nonce) {
         console.error('URL AJAX ou nonce manquant.');
+        retryButton.hidden = true;
+        showError('Le filtrage est indisponible. Rechargez la page pour réessayer.');
         return;
     }
 
     let controller = null;
+    let lastPage = 1;
+
+    retryButton.addEventListener('click', () => updateResources(lastPage));
 
     async function updateResources(page = 1) {
+        lastPage = page;
+        if (errorBox.contains(document.activeElement)) {
+            results.setAttribute('tabindex', '-1');
+            results.focus({ preventScroll: true });
+        }
+        errorBox.hidden = true;
+        errorMessage.textContent = '';
 
         // Récupérer les filtres sélectionnés
         const types = [
@@ -216,8 +320,6 @@ document.addEventListener('DOMContentLoaded', () => {
             data.append('thematiques[]', thematique);
         });
 
-        console.log('Type fixe :', fixedType);
-        console.log('Données AJAX :', [...data.entries()]);
 
         try {
             const response = await fetch(ajaxUrl, {
@@ -232,7 +334,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const result = await response.json();
 
-            if (!result.success) {
+            // Une réponse ancienne ne doit jamais remplacer les résultats courants.
+            if (currentController.signal.aborted || controller !== currentController) return;
+
+            if (!result?.success || typeof result.data?.html !== 'string') {
                 throw new Error('Erreur AJAX WordPress');
             }
 
@@ -252,8 +357,10 @@ document.addEventListener('DOMContentLoaded', () => {
             window.history.pushState({}, '', url.toString());
 
         } catch (error) {
-            if (error.name !== 'AbortError') {
+            if (error.name !== 'AbortError' && controller === currentController
+                && !currentController.signal.aborted) {
                 console.error('Erreur de filtrage :', error);
+                showError('Impossible de mettre à jour les ressources. Les derniers résultats restent affichés. Réessayez ou rechargez la page.');
             }
 
         } finally {
@@ -322,11 +429,97 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function initOmeesPrimaryMenu() {
 
     const menu = document.querySelector('.omeesMenu');
 
     if (!menu) return;
+
+    const desktop = window.matchMedia('(min-width: 992px)');
+    const desktopItems = [...menu.querySelectorAll('.omeesMenu__item--parent')]
+        .map((item) => ({
+            item,
+            trigger: item.querySelector('.omeesMenu__desktopToggle'),
+            mobileTrigger: item.querySelector('.omeesMenu__toggle'),
+        }))
+        .filter(({ trigger }) => trigger);
+
+    function setDesktopOpen(entry, open) {
+        entry.item.classList.toggle('is-open', open);
+        entry.trigger.setAttribute('aria-expanded', String(open));
+        entry.mobileTrigger?.setAttribute('aria-expanded', String(open));
+    }
+
+    function openDesktopItem(entry) {
+        desktopItems.forEach((other) => setDesktopOpen(other, other === entry));
+    }
+
+    desktopItems.forEach((entry) => {
+        entry.trigger.addEventListener('click', () => {
+            if (!desktop.matches) return;
+
+            if (entry.item.classList.contains('is-open')) {
+                setDesktopOpen(entry, false);
+            } else {
+                openDesktopItem(entry);
+            }
+        });
+
+        entry.item.addEventListener('pointerenter', (event) => {
+            if (desktop.matches && event.pointerType !== 'touch') {
+                openDesktopItem(entry);
+            }
+        });
+
+        entry.item.addEventListener('pointerleave', () => {
+            if (desktop.matches && !entry.item.contains(document.activeElement)) {
+                setDesktopOpen(entry, false);
+            }
+        });
+
+        entry.item.addEventListener('focusout', (event) => {
+            if (desktop.matches && !entry.item.contains(event.relatedTarget)) {
+                setDesktopOpen(entry, false);
+            }
+        });
+
+        entry.item.addEventListener('keydown', (event) => {
+            if (!desktop.matches || event.key !== 'Escape'
+                || !entry.item.classList.contains('is-open')) return;
+
+            event.preventDefault();
+            setDesktopOpen(entry, false);
+            entry.trigger.focus({ preventScroll: true });
+        });
+    });
+
+    // Le même état pilote l'affichage et aria-expanded sur desktop.
+    menu.setAttribute('data-desktop-ready', '');
+
+    document.addEventListener('click', (event) => {
+        if (desktop.matches && !menu.contains(event.target)) {
+            desktopItems.forEach((entry) => setDesktopOpen(entry, false));
+        }
+    });
+
+    desktop.addEventListener('change', () => {
+        const activeEntry = desktopItems.find(({ item }) => item.contains(document.activeElement));
+
+        menu.querySelectorAll('.is-open').forEach((element) => element.classList.remove('is-open'));
+        menu.querySelectorAll('[aria-expanded]').forEach((element) => {
+            element.setAttribute('aria-expanded', 'false');
+        });
+
+        if (activeEntry) {
+            const target = desktop.matches
+                ? activeEntry.trigger
+                : document.querySelector('#mainNavbar.show .omeesMenu__toggle')
+                    ? activeEntry.mobileTrigger
+                    : document.querySelector('#omees__btnNavMobileColl');
+
+            target?.focus({ preventScroll: true });
+        }
+    });
 
     menu.addEventListener('click', function (event) {
 
@@ -336,8 +529,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (!button) return;
 
-        // Sur desktop, le menu est géré en CSS
-        if (window.innerWidth >= 992) return;
+        if (desktop.matches) return;
 
         event.preventDefault();
 
@@ -357,11 +549,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function initOmeesHeadingAnchors() {
     const headings = document.querySelectorAll('body .omees__contentMain h2');
-    const usedIds = new Set(
-        [...document.querySelectorAll('[id]')].map(el => el.id)
-    );
 
     headings.forEach((h2) => {
         // Générer un ID si le titre n'en possède pas
@@ -373,15 +562,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .replace(/[^a-z0-9]+/g, '-')
                 .replace(/^-|-$/g, '') || 'section';
 
-            let id = base;
-            let index = 2;
-
-            while (usedIds.has(id)) {
-                id = `${base}-${index++}`;
-            }
-
-            h2.id = id;
-            usedIds.add(id);
+            window.omeesEnsureHeadingId(h2, base);
         }
 
         // Créer le bouton d'ancre
@@ -411,7 +592,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function initOmeesPrintExport() {
     const modalElement = document.querySelector('#exportPdfModal');
     const printButton = document.querySelector('#confirmExportPdf');
 

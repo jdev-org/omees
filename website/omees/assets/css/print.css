@@ -1,6 +1,5 @@
 /* ==========================================================================
-   OMÉES — STYLES D’IMPRESSION
-   Nettoyage des doublons sans modification intentionnelle du rendu.
+   OMEES — STYLES D’IMPRESSION
    ========================================================================== */
 
 @media print {
@@ -55,6 +54,9 @@
 
     main,
     main.site-main,
+    #omees__home,
+    .searchPage,
+    .error404Page,
     .omees__contentMain {
         padding: 0 !important;
         margin: 0 !important;

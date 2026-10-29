@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<main id="main-content" class="error404Page">
+<div id="main-content" class="error404Page">
 
     <div class="container">
 
@@ -79,6 +79,6 @@
 
     </div>
 
-</main>
+</div>
 
 <?php get_footer(); ?>

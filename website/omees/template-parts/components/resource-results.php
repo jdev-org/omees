@@ -37,20 +37,13 @@ $card_template = $is_horizontal
 
         <div class="col-12 col-md-6 offset-md-3 text-center my-5">
 
-            <div class="resourceEmpty">
-
-                <div class="resourceEmpty__icon mb-2">
-                    <i class="ri-search-eye-line ri-lg"></i>
-                </div>
-
-                <h6>Aucun résultat</h6>
-
-                <p>
-                    Essayez de modifier ou de retirer certains filtres
-                    pour découvrir davantage de ressources.
-                </p>
-
-            </div>
+            <?php
+            get_template_part('template-parts/components/resource-empty', null, [
+                'title' => 'Aucun résultat',
+                'message' => 'Essayez de modifier ou de retirer certains filtres pour découvrir davantage de ressources.',
+                'heading_tag' => 'h6',
+            ]);
+            ?>
 
         </div>
 

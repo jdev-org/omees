@@ -70,7 +70,7 @@ get_header(); ?>
 
 <?php get_template_part('template-parts/fixed-icon'); ?>
 
-<main class="site-main" id="omees__home">
+<div class="site-main" id="omees__home">
 
     <!-- HERO -->
     
@@ -302,7 +302,7 @@ get_header(); ?>
 
     </section>
 
-</main>
+</div>
 
 <?php get_footer();
 ?>

@@ -100,7 +100,7 @@ $linkedin = $options['linkedin_url'] ?? '';
 </div>
 
 </main>
-    <footer class="site-footer mt-5" id="omees__footer">
+    <footer class="site-footer" id="omees__footer">
         <div class="bg-primary text-white" style="background-color: #133e5f !important;">
             <?php if (!empty($partners)) : ?>
 

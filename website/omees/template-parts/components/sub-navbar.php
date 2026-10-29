@@ -125,7 +125,7 @@ if (is_singular('ressource')) {
 }
 
 // Ne pas afficher la sub-navbar sur l'accueil
-$show_subnavbar = !is_front_page();
+$show_subnavbar = !is_front_page() && !is_page('catalogue-donnees');
 ?>
 
 <?php if ($show_subnavbar) : ?>

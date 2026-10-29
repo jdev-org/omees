@@ -49,9 +49,18 @@ $is_current = function ($item) {
 
                 <?php if ($has_children) : ?>
 
-                    <span class="nav-link omeesMenu__link is-disabled">
+                    <span class="nav-link omeesMenu__link is-disabled d-lg-none">
                         <?php echo esc_html($level1->title); ?>
                     </span>
+
+                    <button
+                        type="button"
+                        class="nav-link omeesMenu__link omeesMenu__desktopToggle d-none d-lg-block"
+                        aria-expanded="false"
+                        aria-controls="<?php echo esc_attr($submenu_id); ?>"
+                    >
+                        <?php echo esc_html($level1->title); ?>
+                    </button>
 
                 <?php else : ?>
 
